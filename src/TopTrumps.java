@@ -6,6 +6,8 @@ import online.TopTrumpsOnlineApplication;
 
 public class TopTrumps {
 
+	//This course work already scares me.. xD 
+
 	/** This is the main class for the TopTrumps Application */
 	public static void main(String[] args) {
 		
