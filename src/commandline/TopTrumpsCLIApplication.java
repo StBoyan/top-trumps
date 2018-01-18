@@ -5,31 +5,32 @@ package commandline;
  */
 public class TopTrumpsCLIApplication {
 
-	/**
+     /**
 	 * This main method is called by TopTrumps.java when the user specifies that they want to run in
 	 * command line mode. The contents of args[0] is whether we should write game logs to a file.
  	 * @param args
 	 */
 	public static void main(String[] args) {
+		boolean writeGameLogsToFile = false;
 
-		boolean writeGameLogsToFile = false; // Should we write game logs to file?
-		if (args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true; // Command line selection
+		if (args[0].equalsIgnoreCase("true"))
+			writeGameLogsToFile=true;
 		
-		// State
-		boolean userWantsToQuit = false; // flag to check whether the user wants to quit the application
-		
-		// Loop until the user wants to exit the game
+		boolean userWantsToQuit = false;
+        Controller appController = new Controller();
+        
+		// Main application loop
 		while (!userWantsToQuit) {
+            appController.showMenu();
+            int input = appController.userInput();
 
-			// ----------------------------------------------------
-			// Add your game logic here based on the requirements
-			// ----------------------------------------------------
-			
-			userWantsToQuit=true; // use this when the user wants to exit the game
-			
+            if (input == 1)
+                break; //start game
+            if (input == 2)
+                break; //show statistics
+            if (input == 3)
+                userWantsToQuit=true;
+
 		}
-
-
 	}
-
 }
