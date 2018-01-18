@@ -1,3 +1,3 @@
 # top-trumps
 
-This is our group project git
+Team 20 Top Trumps Project
