@@ -22,15 +22,14 @@ public class TopTrumpsCLIApplication {
 		// Main application loop
 		while (!userWantsToQuit) {
             appController.showMenu();
-            int input = appController.userInput();
+            char input = appController.userInput();
 
-            if (input == 1)
+            if (input == 'G' || input == 'g')
                 break; //start game
-            if (input == 2)
+            if (input == 'S' || input == 's')
                 break; //show statistics
-            if (input == 3)
+            if (input == 'Q' || input == 'q')
                 userWantsToQuit=true;
-
 		}
 	}
 }

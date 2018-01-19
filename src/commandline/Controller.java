@@ -11,10 +11,10 @@ CommandLineView console;
     }
 
     public void showMenu() {
-        console.initialOptions();
+        console.optionsMenu();
     }
 
-    public int userInput() {
+    public char userInput() {
         return console.getUserInput();
     }
 }
