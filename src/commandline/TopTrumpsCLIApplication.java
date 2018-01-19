@@ -1,5 +1,8 @@
 package commandline;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 /**
  * Top Trumps command line application
  */
@@ -19,15 +22,19 @@ public class TopTrumpsCLIApplication {
 		boolean userWantsToQuit = false;
         Controller appController = new Controller();
         
-		// Main application loop
 		while (!userWantsToQuit) {
             appController.showMenu();
-            char input = appController.userInput();
+            char input = appController.menuInput();
 
             if (input == 'G' || input == 'g')
-                break; //start game
+            	try {
+					appController.startGame(writeGameLogsToFile);
+				}
+				catch (FileNotFoundException e) {
+				userWantsToQuit=true;
+				}
             if (input == 'S' || input == 's')
-                break; //show statistics
+                appController.showStatistics();
             if (input == 'Q' || input == 'q')
                 userWantsToQuit=true;
 		}

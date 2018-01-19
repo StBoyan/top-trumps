@@ -7,6 +7,9 @@ import java.util.Scanner;
  */
 public class CommandLineView {
 
+    /**
+     *  Display initial options
+     */
     public void optionsMenu() {
         System.out.println("Game Menu:");
         System.out.println("1.) Start a new game [G]");
@@ -15,12 +18,19 @@ public class CommandLineView {
         System.out.print("Choose an option: ");
     }
 
+    /**
+     * Get user input from console
+     * G - new game
+     * S - statistics
+     * Q - quit
+     * @return char user input
+     */
     public char getUserInput() {
         char userSelection;
-        Scanner reader = new Scanner(System.in);
+        Scanner in = new Scanner(System.in); //may need to increase scope to use in other user interactions
 
         for (;;) {
-            userSelection = reader.next().charAt(0); //need to be able to handle empty char or space
+            userSelection = in.next().charAt(0); //need to be able to handle empty char or space
 
             switch (userSelection) {
                 case 'G':
@@ -37,6 +47,14 @@ public class CommandLineView {
                     break;
             }
         }
+    }
+
+    /**
+     * Informs the user of deck not found error
+     */
+    public void deckNotFoundError() {
+        System.out.println("Error! deck.txt not found");
+        System.out.println("The program will now terminate.");
     }
 
 }
