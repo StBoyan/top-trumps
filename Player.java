@@ -26,9 +26,22 @@ public class Player {
 		return ID;
 	}
 
+	public int getCardNum() {return this.hand.size();
+	}
 public ArrayList<Card> hand() {
 		
 		return hand;
+	}
+
+public void setHand(ArrayList<Card> hand) {
+	this.hand = hand;
+}
+
+public Card getCardFromTop() {
+	return hand.get(0);
+	}
+public void removeCardFromTop() {
+	this.hand.remove(0);
 	}
 
 }
