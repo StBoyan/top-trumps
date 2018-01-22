@@ -41,14 +41,18 @@ public class Game {
 	            }
 	            playerList.get(i).setHand(arlTemp);
 	        }
-	        
+	      
+	        int i = 0;
 	        for (Player a : playerList ) {
-	        	
+	        	int j = 0;
 	        	for (Card b : a.hand()) {
-	        		System.out.println( b.getDescription()   + "   " + b.getSize());
-	        		
+	        		System.out.println(b.getDescription()   + "   " + b.getSize());
+	        		//or //
+	        		//System.out.println(playerList.get(i).hand().get(j).getDescription()+ "   " + playerList.get(i).hand().get(j).getSize());
+	        		j++;
 	        	}
 	        	System.out.println();
+	        	i++;
 	        }
 	       
 	        System.exit(0);
