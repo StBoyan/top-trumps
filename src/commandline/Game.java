@@ -1,8 +1,6 @@
 package commandline;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Scanner;
 
 /**
  * Class to handle a game of Top Trumps
@@ -22,6 +20,10 @@ final int NUM_OF_PLAYERS = 5;
         inputOutput = io;
         topTrumpsDeck = new Deck(inputOutput);
         players = new Player[NUM_OF_PLAYERS];
+
+        for (int i = 0; i < NUM_OF_PLAYERS; i++) {
+            players[i] = new Player();
+        }
     }
 
     /**
@@ -32,14 +34,34 @@ final int NUM_OF_PLAYERS = 5;
     inputOutput = io;
     log = dl;
     topTrumpsDeck = new Deck(inputOutput);
+    log.printDeck(topTrumpsDeck.getGameDeck(), -1);
+
     players = new Player[NUM_OF_PLAYERS];
+
+        for (int i = 0; i < NUM_OF_PLAYERS; i++) {
+             players[i] = new Player();
+        }
     }
 
+    /**
+     * Deals cards to each player
+     */
     public void dealCards() {
+        topTrumpsDeck.shuffleDeck();
+
         int currentPos = 0;
         for (int i = 0; i < topTrumpsDeck.DECK_SIZE; i++) {
             Card c = topTrumpsDeck.getCardAt(i);
             players[currentPos % 5].addCard(c);
+            currentPos++;
+        }
+
+        if (log != null) {
+            log.printDeck(topTrumpsDeck.getGameDeck(), -2);
+
+            for (int i = 0; i < NUM_OF_PLAYERS; i++) {
+                log.printDeck(players[i].getPlayerDeck(), i);
+            }
         }
     }
 }

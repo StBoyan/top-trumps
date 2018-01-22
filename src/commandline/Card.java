@@ -14,9 +14,10 @@ public class Card {
      */
     public Card(String[] cardInfo) {
         description = cardInfo[0];
+        stats = new int[NUM_OF_STATS];
 
         for (int i = 0; i < NUM_OF_STATS; i++) {
-            stats[i] = Integer.parseInt(cardInfo[i]);
+            stats[i] = Integer.parseInt(cardInfo[i + 1]);
         }
     }
 

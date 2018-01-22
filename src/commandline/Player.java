@@ -42,5 +42,9 @@ public class Player {
         return c;
     }
 
+    public ArrayList<Card> getPlayerDeck() {
+        return playerDeck;
+    }
+
 
 }

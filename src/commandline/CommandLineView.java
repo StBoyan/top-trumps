@@ -41,9 +41,9 @@ public class CommandLineView {
                     return userSelection;
                 case 'Q':
                 case 'q':
-                    return userSelection;
+                    return userSelection;       //case empty string
                 default:
-                    System.out.print("\rChoose an option: ");
+                    System.out.print("Choose an option: ");
                     break;
             }
         }
