@@ -1,7 +1,7 @@
 package commandline;
 
 /**
- * Class to model card
+ * Class to model card. Class objects are immutable.
  */
 public class Card {
     String description;
@@ -39,10 +39,43 @@ public class Card {
     /**
      * Gets card stat at position n.
      * @param pos stat position
-     * @return stat value
+     * @return int stat value
      */
     public int getStatAt(int pos) {
         return stats[pos];
+    }
+
+    /**
+     * Gets position of highest card stat.
+     * @return int index of highest stat
+     */
+    public int getPosOfHighestStat() {
+        int pos = 0;
+        int highestStat = stats[0];
+
+        for (int i = 1; i < NUM_OF_STATS; i++) {
+            if (stats[i] > highestStat) {
+                highestStat = stats[i];
+                pos = i;
+            }
+        }
+
+        return pos;
+    }
+
+    /**
+     * Returns string representation of card.
+     * @return String card description and values
+     */
+    public String toString() {
+       StringBuilder sb = new StringBuilder();
+
+        sb.append(description).append(" ");
+        for (int i = 0; i < NUM_OF_STATS; i++) {
+            sb.append(stats[i]).append(" ");
+        }
+
+        return sb.toString();
     }
 }
 

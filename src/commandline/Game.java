@@ -8,49 +8,38 @@ import java.util.Scanner;
  * Class to handle a game of Top Trumps
  */
 public class Game {
+IO inputOutput;
+DebugLog log;
+Deck topTrumpsDeck;
+Player[] players;
+final int NUM_OF_PLAYERS = 5;
+
 
     /**
      * Game default constructor
      */
-    public Game() throws FileNotFoundException{
-        readDeck();
+    public Game(IO io) throws FileNotFoundException{
+        inputOutput = io;
+        topTrumpsDeck = new Deck(inputOutput);
+        players = new Player[NUM_OF_PLAYERS];
     }
 
     /**
      * Game constructor in debug mode
-     * @param log DebugLog object
+     * @param dl DebugLog object
      */
-    public Game(DebugLog log) throws FileNotFoundException{
-        readDeck();
+    public Game(IO io, DebugLog dl) throws FileNotFoundException{
+    inputOutput = io;
+    log = dl;
+    topTrumpsDeck = new Deck(inputOutput);
+    players = new Player[NUM_OF_PLAYERS];
     }
 
-    /**
-     * Reads deck file
-     * @return String[][] 2d array with deck info
-     * @throws FileNotFoundException if deck file is not present
-     */
-    private String[][] readDeck() throws FileNotFoundException {
-        final String DECK_FILE = "deck.txt";
-        /* 1 description line and 40 card lines */
-        final int DECK_FILE_ROWS = 41;
-        /* card name and 5 characteristics */
-        final int DECK_FILE_COLUMNS = 6;
-
-        String[][] deck = new String[DECK_FILE_ROWS][DECK_FILE_COLUMNS];
-        FileReader reader = new FileReader("DECK_FILE");
-        Scanner in = new Scanner(reader);
-
-        int currentRow = 0;
-        while (in.hasNext()) {
-        String[] deckFileLine = in.nextLine().split(" ");
-
-        for (int i = 0; i < DECK_FILE_COLUMNS; i++) {
-            deck[currentRow][i] = deckFileLine[i];
+    public void dealCards() {
+        int currentPos = 0;
+        for (int i = 0; i < topTrumpsDeck.DECK_SIZE; i++) {
+            Card c = topTrumpsDeck.getCardAt(i);
+            players[currentPos % 5].addCard(c);
         }
-
-        currentRow++;
-        }
-
-    return deck;
     }
 }

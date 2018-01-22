@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
  */
 public class Controller {
 CommandLineView console;
+IO inputOutput;
 Game topTrumpsGame;
 DebugLog log;
 
@@ -39,16 +40,18 @@ DebugLog log;
      */
     public void startGame(boolean debug) throws FileNotFoundException{
         try {
+            inputOutput = new IO();
             if (debug) {
-                log = new DebugLog();
-                topTrumpsGame = new Game(log);
+                log = new DebugLog(inputOutput);
+                topTrumpsGame = new Game(inputOutput, log);
             } else if (!debug)
-                topTrumpsGame = new Game();
+                topTrumpsGame = new Game(inputOutput);
         }
         catch (FileNotFoundException e) {
             console.deckNotFoundError();
             throw new FileNotFoundException();
         }
+        topTrumpsGame.dealCards();
     }
 
     /**
