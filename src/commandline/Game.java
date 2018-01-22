@@ -15,6 +15,8 @@ final int NUM_OF_PLAYERS = 5;
 
     /**
      * Game default constructor
+     * @param io IO object
+     * @throws FileNotFoundException if deck file is not found
      */
     public Game(IO io) throws FileNotFoundException{
         inputOutput = io;
@@ -28,7 +30,9 @@ final int NUM_OF_PLAYERS = 5;
 
     /**
      * Game constructor in debug mode
+     * @param io IO object
      * @param dl DebugLog object
+     * @throws FileNotFoundException
      */
     public Game(IO io, DebugLog dl) throws FileNotFoundException{
     inputOutput = io;

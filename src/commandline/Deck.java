@@ -51,10 +51,19 @@ public class Deck {
         Collections.shuffle(gameDeck);
     }
 
+    /**
+     * Gets card at position n.
+     * @param pos position of card
+     * @return Card object
+     */
     public Card getCardAt(int pos) {
         return gameDeck.get(pos);
     }
 
+    /**
+     * Returns the current game deck.
+     * @return ArrayList<Card> containg deck
+     */
     public ArrayList<Card> getGameDeck() {
         return gameDeck;
     }
