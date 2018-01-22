@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Deck {
 	
 	private ArrayList<Card> deck;
-	private final int DECK_SIZE = 50;
+	private final int DECK_SIZE = 40;
 	private final String DeckFile = "StarCitizenDeck.txt";
 	private Scanner readDeck;
 	public Deck()
