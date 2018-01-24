@@ -1,12 +1,12 @@
 package commandline;
 
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Class to handle user interaction in the command line
  */
 public class CommandLineView {
+    String[] deckAttributes;
 
     /**
      *  Display initial options
@@ -68,10 +68,48 @@ public class CommandLineView {
         System.out.print("\nDealing cards");
         printDelay(".",3, 450);
         System.out.println("");
+        System.out.println("You are Player #1");
     }
 
     /**
-     * Prints given text n number of times after a
+     * Informs the player of the card drawn
+     * @param card text representation of the card drawn
+     */
+    public void informPlayerCard(String card) {
+        System.out.print("You draw: ");
+        printDelay(card, 1, 600);
+        System.out.println("");
+    }
+
+    /**
+     * Informs the user of whose turn it is and takes
+     * input if human's turn.
+     * @param playerTurn player's turn; 0 - human
+     *                   1-4 - AI players
+     * @return category selection; -1 if its not human's turn
+     */
+    public int informPlayerTurn(int playerTurn) {       //method name sucks
+        if (playerTurn == 0) {
+            System.out.println("Your turn to pick a category.");
+            for (int i = 0; i < 5; i++) {
+                System.out.print(String.format("(" + (i+1) + ") " + deckAttributes[i]));
+            }
+            System.out.print("\nEnter category number:");
+            Scanner in = new Scanner(System.in);
+            return in.nextInt();            //needs to be able to validate user input
+        }
+        else {
+            System.out.println(String.format("Player " + (playerTurn + 1) + " picks a category."));
+            return -1;
+        }
+    }
+
+    public void setDeckAttributes(String[] attr) {
+        deckAttributes = attr;
+    }
+
+    /**
+     * Prints a given text n number of times after a
      * specified delay.
      * @param text String to be printed
      * @param n number of times to print

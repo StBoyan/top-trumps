@@ -10,7 +10,7 @@ import java.util.Collections;
 public class Deck {
     private IO inputOutput;
     private ArrayList<Card> gameDeck;
-    private String[] deckStats = new String[5]; //needs to be changed; magic number and initialised before construction
+    private String[] statDescr = new String[5]; //needs to be changed; magic number and initialised before construction
     public final int DECK_SIZE = 40;
 
     /**
@@ -32,7 +32,7 @@ public class Deck {
         String[] card = new String[inputOutput.DECK_FILE_ROWS];
 
         for(int i = 1; i < inputOutput.DECK_FILE_COLUMNS; i++) {    //may need to be changed
-            deckStats[i - 1] = deck[0][i];
+            statDescr[i - 1] = deck[0][i];
         }
 
         for (int i = 1; i < inputOutput.DECK_FILE_ROWS; i++) {
@@ -48,6 +48,7 @@ public class Deck {
      * Shuffles the deck
      */
     public void shuffleDeck() {
+
         Collections.shuffle(gameDeck);
     }
 
@@ -57,6 +58,7 @@ public class Deck {
      * @return Card object
      */
     public Card getCardAt(int pos) {
+
         return gameDeck.get(pos);
     }
 
@@ -65,6 +67,15 @@ public class Deck {
      * @return ArrayList<Card> containg deck
      */
     public ArrayList<Card> getGameDeck() {
+
         return gameDeck;
+    }
+
+    /**
+     * Returns the stat descriptions of the deck
+     * @return String[] with stat descriptions
+     */
+    public String[] getStatDescr() {
+        return statDescr;
     }
 }

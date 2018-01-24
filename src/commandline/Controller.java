@@ -41,7 +41,7 @@ DebugLog log;
     public void startGame(boolean debug) throws FileNotFoundException{
         try {
             if (debug) {
-                inputOutput = new IO(true);     //debug boolean can be transferred to constructor
+                inputOutput = new IO(true);
                 log = new DebugLog(inputOutput);
                 topTrumpsGame = new Game(inputOutput, log);
             } else if (!debug) {
@@ -53,14 +53,21 @@ DebugLog log;
             console.deckNotFoundError();
             throw new FileNotFoundException();
         }
+        console.setDeckAttributes(topTrumpsGame.getDeckDescriptions());
         console.gameStarting();
-        topTrumpsGame.dealCards();      //infinite loop in Game and return int when done
+        topTrumpsGame.dealCards();
 
         boolean isLastRound = false;
-        while (!isLastRound) {
-            isLastRound = topTrumpsGame.playRound();
-        }
-    }
+        while (!isLastRound) {                              // need to inform user if he is eliminated here and trigger fast finish
+            Card playerCard = topTrumpsGame.getPlayerCard();
+            console.informPlayerCard(playerCard.toString());
+
+            int categoryPlayed = console.informPlayerTurn(topTrumpsGame.getPlayersTurnPos());
+
+
+            isLastRound = topTrumpsGame.playRound();    //pass category played to playRound
+        }                                               //OR have playRound return int of round winner
+    }                                                   //and run a method
 
     /**
      * Display game statistic from database
