@@ -72,6 +72,15 @@ public class Deck {
     }
 
     /**
+     * Chooses the category with the highest stat
+     * from the first card of the deck.
+     * @return int position of best category
+     */
+    public int getPosOfHighestStat() {
+        return gameDeck.get(0).getPosOfHighestStat();
+    }
+
+    /**
      * Returns the stat descriptions of the deck
      * @return String[] with stat descriptions
      */

@@ -14,8 +14,7 @@ Round topTrumpsRound;
 final int NUM_OF_PLAYERS = 5;
 /* Array index of the player whose turn it is  */
 private int playersTurnPos;
-private int roundsPlayed;
-
+private int currentRound;
 
     /**
      * Game default constructor
@@ -26,7 +25,7 @@ private int roundsPlayed;
         inputOutput = io;
         topTrumpsDeck = new Deck(inputOutput);
         players = new Player[NUM_OF_PLAYERS];
-        topTrumpsRound = new Round();
+        topTrumpsRound = new Round(NUM_OF_PLAYERS);
 
         for (int i = 0; i < NUM_OF_PLAYERS; i++) {
             players[i] = new Player();
@@ -46,7 +45,7 @@ private int roundsPlayed;
     inputOutput = io;
     log = dl;
     topTrumpsDeck = new Deck(inputOutput);
-    topTrumpsRound = new Round();
+    topTrumpsRound = new Round(NUM_OF_PLAYERS);
 
     log.printDeck(topTrumpsDeck.getGameDeck(), -1);
 
@@ -108,10 +107,34 @@ private int roundsPlayed;
     }
 
     /**
-     * Plays a single game round
+     * Returns the current round number
+     * @return int current round
      */
-    public boolean playRound() {                      //rounds played integer increment
+    public int getCurrentRound() {
+        return topTrumpsRound.getCurrentRound();
+    }
 
+    public int getStatChosen() {
+        return topTrumpsRound.getStatChosen();
+    }
+
+    /**
+     * Plays a round of Top Trumps .
+     * @param humanCategoryChoice category chosen by human or -1 if not human's turn
+     * @return boolean if this is last round
+     */
+    public boolean playRound(int humanCategoryChoice) {
+        Card[] round = new Card[NUM_OF_PLAYERS];
+
+        for (int i = 0; i < NUM_OF_PLAYERS; i++) {
+            round[i] = players[i].drawCard();
+        }
+
+        if (humanCategoryChoice == -1) {
+            topTrumpsRound.compareCards(round, players[playersTurnPos].aiChooseCategory());
+        }
+        else
+            topTrumpsRound.compareCards(round, humanCategoryChoice);
 
         return true;  //placeholder
     }

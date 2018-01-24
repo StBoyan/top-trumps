@@ -68,7 +68,16 @@ public class CommandLineView {
         System.out.print("\nDealing cards");
         printDelay(".",3, 450);
         System.out.println("");
-        System.out.println("You are Player #1");
+        printDelay("You are player #1\n\n", 1, 500);
+    }
+
+    /**
+     * Informs the player of the round number.
+     * @param rnd round number
+     */
+    public void informRound(int rnd) {
+        String roundLine = "Round " + rnd + " starting!\n";
+        printDelay(roundLine, 1, 450);
     }
 
     /**
@@ -90,20 +99,33 @@ public class CommandLineView {
      */
     public int informPlayerTurn(int playerTurn) {       //method name sucks
         if (playerTurn == 0) {
-            System.out.println("Your turn to pick a category.");
+            printDelay("Your turn to pick a category\n", 1, 500);
             for (int i = 0; i < 5; i++) {
-                System.out.print(String.format("(" + (i+1) + ") " + deckAttributes[i]));
+                System.out.print(" (" + (i+1) + ") " + deckAttributes[i]);
             }
             System.out.print("\nEnter category number:");
             Scanner in = new Scanner(System.in);
-            return in.nextInt();            //needs to be able to validate user input
+            return in.nextInt() - 1;            //needs to be able to validate user input
         }
         else {
-            System.out.println(String.format("Player " + (playerTurn + 1) + " picks a category."));
+            System.out.println("Player " + (playerTurn + 1) + " picks a category.");
             return -1;
         }
     }
 
+    /**
+     * Informs user of what category was chosen.
+     * @param catPos int of position of category
+     */
+    public void informUserOfCatChosen(int catPos) {
+        String catLine = String.format("Cards are compared by " + deckAttributes[catPos] + ".\n");
+        printDelay(catLine, 1, 350);
+    }
+
+    /**
+     * Sets the name of the attributes used in the game.
+     * @param attr String array with attributes
+     */
     public void setDeckAttributes(String[] attr) {
         deckAttributes = attr;
     }

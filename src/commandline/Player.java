@@ -35,6 +35,15 @@ public class Player {
     }
 
     /**
+     * Chooses the highest value category from the top of the
+     * deck.
+     * @return
+     */
+    public int aiChooseCategory() {
+        return playerDeck.get(0).getPosOfHighestStat();
+    }
+
+    /**
      * Returns player's deck
      * @return ArrayList<Card> player's deck>
      */

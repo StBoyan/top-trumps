@@ -59,15 +59,16 @@ DebugLog log;
 
         boolean isLastRound = false;
         while (!isLastRound) {                              // need to inform user if he is eliminated here and trigger fast finish
+            console.informRound(topTrumpsGame.getCurrentRound());
             Card playerCard = topTrumpsGame.getPlayerCard();
             console.informPlayerCard(playerCard.toString());
 
             int categoryPlayed = console.informPlayerTurn(topTrumpsGame.getPlayersTurnPos());
 
-
-            isLastRound = topTrumpsGame.playRound();    //pass category played to playRound
-        }                                               //OR have playRound return int of round winner
-    }                                                   //and run a method
+            isLastRound = topTrumpsGame.playRound(categoryPlayed);
+            console.informUserOfCatChosen(topTrumpsGame.getStatChosen());//pass category played to playRound
+        }                                                               //OR have playRound return int of round winner
+    }                                                                   //and run a method
 
     /**
      * Display game statistic from database
