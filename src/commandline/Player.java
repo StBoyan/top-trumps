@@ -16,17 +16,9 @@ public class Player {
     }
 
     /**
-     * Constructor to initialise playerDeck arraylist in debug mode
-     * @param dl
-     */
-    public Player(DebugLog dl) {
-        playerDeck = new ArrayList<Card>();
-    }
-
-    /**
-     * Adds a card to the bottom of the player's deck
-     * @param c Card object
-     */
+    * Adds a card to the bottom of the player's deck
+    * @param c Card object
+    */
     public void addCard(Card c) {
         playerDeck.add(c);
     }
@@ -42,6 +34,10 @@ public class Player {
         return c;
     }
 
+    /**
+     * Returns player's deck
+     * @return ArrayList<Card> player's deck>
+     */
     public ArrayList<Card> getPlayerDeck() {
         return playerDeck;
     }

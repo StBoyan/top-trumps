@@ -1,6 +1,7 @@
 package commandline;
 
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class to handle user interaction in the command line
@@ -19,13 +20,13 @@ public class CommandLineView {
     }
 
     /**
-     * Get user input from console
+     * Get menu selection input from command line
      * G - new game
      * S - statistics
      * Q - quit
      * @return char user input
      */
-    public char getUserInput() {
+    public char getMenuInput() {
         char userSelection;
         Scanner in = new Scanner(System.in); //may need to increase scope to use in other user interactions
 
@@ -55,6 +56,36 @@ public class CommandLineView {
     public void deckNotFoundError() {
         System.out.println("Error! deck.txt not found");
         System.out.println("The program will now terminate.");
+    }
+
+    /**
+     * Informs the user the game is about to begin
+     */
+    public void gameStarting() {
+        System.out.println("Game is about to begin!");
+        System.out.print("Shuffling deck");
+        printDelay(".",3, 450);
+        System.out.print("\nDealing cards");
+        printDelay(".",3, 450);
+        System.out.println("");
+    }
+
+    /**
+     * Prints given text n number of times after a
+     * specified delay.
+     * @param text String to be printed
+     * @param n number of times to print
+     * @param ms millisecond delay before printing
+     */
+    private void printDelay(String text, int n, int ms) {
+        for (int i = 0; i < n; i++) {
+            try {
+                Thread.sleep(ms);
+                System.out.print(text);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

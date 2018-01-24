@@ -30,7 +30,7 @@ DebugLog log;
      * @return char user input
      */
     public char menuInput() {
-        return console.getUserInput();
+        return console.getMenuInput();
     }
 
     /**
@@ -41,7 +41,7 @@ DebugLog log;
     public void startGame(boolean debug) throws FileNotFoundException{
         try {
             if (debug) {
-                inputOutput = new IO(true);
+                inputOutput = new IO(true);     //debug boolean can be transferred to constructor
                 log = new DebugLog(inputOutput);
                 topTrumpsGame = new Game(inputOutput, log);
             } else if (!debug) {
@@ -53,7 +53,13 @@ DebugLog log;
             console.deckNotFoundError();
             throw new FileNotFoundException();
         }
+        console.gameStarting();
         topTrumpsGame.dealCards();      //infinite loop in Game and return int when done
+
+        boolean isLastRound = false;
+        while (!isLastRound) {
+            isLastRound = topTrumpsGame.playRound();
+        }
     }
 
     /**
