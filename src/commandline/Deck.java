@@ -3,88 +3,78 @@ package commandline;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 /**
- * Class to model the deck of cards
+ * This class models the game deck used for a
+ * game of Top Trumps. It contains all the Card objects,
+ * and the category names, as well as methods to shuffle it,
+ * access the Card objects, and the category names.
  */
 public class Deck {
-    private IO inputOutput;
     private ArrayList<Card> gameDeck;
-    private String[] statDescr = new String[5]; //needs to be changed; magic number and initialised before construction
-    public final int DECK_SIZE = 40;
+    private String[] catNames;
+
 
     /**
-     * Default constructor
+     * Creates a Deck object and constructs a deck exactly
+     * as read from the external source.
      * @param io IO object
-     * @throws FileNotFoundException if deck file is not found
+     * @throws FileNotFoundException if external deck file is missing
      */
     public Deck(IO io) throws FileNotFoundException{
-        inputOutput = io;
-        createDeck(inputOutput.readDeck());
+        createDeck(io.readDeck());
     }
 
-    /**
-     * Creates an unshuffled deck.
-     * @param deck a 2d arrray of the card attributes
+    /*
+     * Creates Card objects and assigns them to an ArrayList
+     * from a string representing the deck to be used in the game.
+     * @param deck String of the deck used in the game
      */
-    private void createDeck(String[][] deck) {
-        gameDeck = new ArrayList<Card>(DECK_SIZE);
-        String[] card = new String[inputOutput.DECK_FILE_ROWS];
+    private void createDeck(String deck) {
+        gameDeck = new ArrayList<Card>();
+        Scanner in = new Scanner(deck);
 
-        for(int i = 1; i < inputOutput.DECK_FILE_COLUMNS; i++) {    //may need to be changed
-            statDescr[i - 1] = deck[0][i];
-        }
+        /* Removes "Description" from the first line of the deck String
+         * and puts the names in the catNames array */
+        catNames = in.nextLine().replace("Description ", "").split(" ");
 
-        for (int i = 1; i < inputOutput.DECK_FILE_ROWS; i++) {
-            for (int j = 0; j < inputOutput.DECK_FILE_COLUMNS;j++) {
-                card[j] = deck[i][j];
-            }
-        Card c = new Card(card);
-        gameDeck.add(c);
+        while (in.hasNext()) {
+            String[] line = in.nextLine().split(" ");
+            gameDeck.add(new Card(line));
         }
     }
 
     /**
-     * Shuffles the deck
+     * Shuffles the positions of the Card objects in the
+     * ArrayList to a new random order.
      */
     public void shuffleDeck() {
-
         Collections.shuffle(gameDeck);
     }
 
     /**
-     * Gets card at position n.
+     * Returns the Card object at position n.
      * @param pos position of card
-     * @return Card object
+     * @return Card Card object
      */
     public Card getCardAt(int pos) {
-
         return gameDeck.get(pos);
     }
 
     /**
-     * Returns the current game deck.
-     * @return ArrayList<Card> containg deck
+     * Returns the ArrayList of the current deck.
+     * @return ArrayList<Card> containing the current deck
      */
     public ArrayList<Card> getGameDeck() {
-
         return gameDeck;
     }
 
     /**
-     * Chooses the category with the highest stat
-     * from the first card of the deck.
-     * @return int position of best category
+     * Returns the array of the category names.
+     * @return String[] of category names
      */
-    public int getPosOfHighestStat() {
-        return gameDeck.get(0).getPosOfHighestStat();
-    }
-
-    /**
-     * Returns the stat descriptions of the deck
-     * @return String[] with stat descriptions
-     */
-    public String[] getStatDescr() {
-        return statDescr;
+    public String[] getCatNames() {
+        return catNames;
     }
 }

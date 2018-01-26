@@ -1,54 +1,56 @@
 package commandline;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Scanner;
 
 /**
- * Class to do input and output to external files
+ * Class that handles inputting a deck file and outputting
+ * to a log file in debug mode.
  */
 public class IO {
+    private PrintWriter logWriter;
     private final File DECK_FILE = new File("deck.txt");
     private final File LOG_FILE = new File("toptrumps.log");
-    FileReader reader;
-    PrintWriter logWriter;
-    /* 1 description line and 40 card lines */
-    final int DECK_FILE_ROWS = 41;
-    /* card name and 5 characteristics */
-    final int DECK_FILE_COLUMNS = 6;
 
-    public IO(boolean debug) throws FileNotFoundException{  //may need to implement different user info in case
-        if (debug)                                          //of PrintWriter throwing exception
+    /**
+     * Creates an IO object. If the argument passed is true
+     * creates a PrintWriter object to facilitate writing to the
+     * log file.
+     * @param debug whether debug mode is active
+     * @throws FileNotFoundException if there is an error creating
+     * the log file
+     */
+    public IO(boolean debug) throws FileNotFoundException{
+        if (debug)
             logWriter = new PrintWriter(LOG_FILE);
     }
+
     /**
-     * Reads deck file
-     * @return String[][] 2d array with deck info
-     * @throws FileNotFoundException if deck file is not present
+     * Reads the deck file and returns it as a String.
+     * @return String of the entire deck file
+     * @throws FileNotFoundException if the deck file cannot be found
      */
-    public String[][] readDeck() throws FileNotFoundException {
-        String[][] deck = new String[DECK_FILE_ROWS][DECK_FILE_COLUMNS];
-        reader = new FileReader(DECK_FILE);
+    public String readDeck() throws FileNotFoundException {
+        StringBuilder deck = new StringBuilder();
+        FileReader reader = new FileReader(DECK_FILE);
         Scanner in = new Scanner(reader);
 
-        int currentRow = 0;
         while (in.hasNext()) {
-            String[] deckFileLine = in.nextLine().split(" ");
-
-            for (int i = 0; i < DECK_FILE_COLUMNS; i++) {
-                deck[currentRow][i] = deckFileLine[i];
-            }
-
-            currentRow++;
+            deck.append(in.nextLine()).append("\n");
         }
-                                    //need to close reader and scanner object
-        return deck;
+
+        in.close();
+        try {
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return deck.toString();
     }
 
     /**
-     * Writes to the logfile
+     * Writes a given String to the log file.
      * @param logText text to be printed
      */
     public void writeLog(String logText) {

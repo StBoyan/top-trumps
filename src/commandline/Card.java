@@ -8,8 +8,6 @@ package commandline;
  */
 public class Card {
     private String description;
-    /* Cards are assumed to have 5 categories */
-    private final int NUM_OF_CATS = 5;
     private int[] catsValues;
 
     /**
@@ -21,7 +19,7 @@ public class Card {
         description = cardInfo[0];
         catsValues = new int[cardInfo.length - 1];
 
-        for (int i = 0; i < NUM_OF_CATS; i++) {
+        for (int i = 0; i < cardInfo.length - 1; i++) {
             catsValues[i] = Integer.parseInt(cardInfo[i + 1]);
         }
     }
@@ -43,7 +41,7 @@ public class Card {
         int pos = 0;
         int maxValue = catsValues[0];
 
-        for (int i = 1; i < NUM_OF_CATS; i++) {
+        for (int i = 1; i < catsValues.length; i++) {
             if (catsValues[i] > maxValue) {
                 maxValue = catsValues[i];
                 pos = i;
@@ -63,8 +61,9 @@ public class Card {
        StringBuilder sb = new StringBuilder();
 
         sb.append(description).append(" ");
-        for (int i = 0; i < NUM_OF_CATS; i++) {
-            sb.append(catsValues[i]).append(" ");
+
+        for (int catValue : catsValues) {
+            sb.append(catValue).append(" ");
         }
 
         return sb.toString();
