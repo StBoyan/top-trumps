@@ -1,62 +1,51 @@
 package commandline;
 
 /**
- * Class to model card. Class objects are immutable.
+ * This class models a card in a game of Top Trumps.
+ * It stores the description of a card and its categories'
+ * values. This is an immutable class, hence there are only
+ * methods to access its attributes.
  */
 public class Card {
-    String description;
-    final int NUM_OF_STATS = 5;
-    int[] stats;
+    private String description;
+    /* Cards are assumed to have 5 categories */
+    private final int NUM_OF_CATS = 5;
+    private int[] catsValues;
 
     /**
-     * constructor
-     * @param cardInfo line of deck.txt
+     * Constructs a card object from a String array containing
+     * the description and the values of the categories.
+     * @param cardInfo Array containing card information
      */
     public Card(String[] cardInfo) {
         description = cardInfo[0];
-        stats = new int[NUM_OF_STATS];
+        catsValues = new int[cardInfo.length - 1];
 
-        for (int i = 0; i < NUM_OF_STATS; i++) {
-            stats[i] = Integer.parseInt(cardInfo[i + 1]);
+        for (int i = 0; i < NUM_OF_CATS; i++) {
+            catsValues[i] = Integer.parseInt(cardInfo[i + 1]);
         }
     }
 
     /**
-     * Gets card description.
-     * @return String description
+     * Gets the category value at position n.
+     * @param pos category position
+     * @return int category value
      */
-    public String getDescription() {
-        return description;
+    public int getCatValueAt(int pos) {
+        return catsValues[pos];
     }
 
     /**
-     * Gets all card stats.
-     * @return int[] card stats
+     * Gets the category position of the highest value.
+     * @return int position of highest value category
      */
-    public int[] getStats() {
-        return stats;
-    }
-
-    /**
-     * Gets card stat at position n.
-     * @param pos stat position
-     * @return int stat value
-     */
-    public int getStatAt(int pos) {
-        return stats[pos];
-    }
-
-    /**
-     * Gets position of highest card stat.
-     * @return int index of highest stat
-     */
-    public int getPosOfHighestStat() {
+    public int getPosOfHighestCat() {
         int pos = 0;
-        int highestStat = stats[0];
+        int maxValue = catsValues[0];
 
-        for (int i = 1; i < NUM_OF_STATS; i++) {
-            if (stats[i] > highestStat) {
-                highestStat = stats[i];
+        for (int i = 1; i < NUM_OF_CATS; i++) {
+            if (catsValues[i] > maxValue) {
+                maxValue = catsValues[i];
                 pos = i;
             }
         }
@@ -65,15 +54,17 @@ public class Card {
     }
 
     /**
-     * Returns string representation of card.
-     * @return String card description and values
+     * Returns a string representation of a card object. That is -
+     * its description followed by the category values, all of which
+     * are delimited by whitespace.
+     * @return String representation of a card object
      */
     public String toString() {
        StringBuilder sb = new StringBuilder();
 
         sb.append(description).append(" ");
-        for (int i = 0; i < NUM_OF_STATS; i++) {
-            sb.append(stats[i]).append(" ");
+        for (int i = 0; i < NUM_OF_CATS; i++) {
+            sb.append(catsValues[i]).append(" ");
         }
 
         return sb.toString();
