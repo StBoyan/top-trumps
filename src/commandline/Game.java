@@ -1,81 +1,91 @@
 package commandline;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
- * Class to handle a game of Top Trumps
+ * This class handles a single game of Top Trumps. It maintains
+ * a list of the players in the game and the active player at
+ * any moment. It has various methods to distribute cards (both
+ * at beginning and after a round), methods to access attributes
+ * in Round, methods to access the human player's top cards and
+ * others.
  */
-public class Game {
-IO inputOutput;
-DebugLog log;
-Deck topTrumpsDeck;
-Player[] players;
-Round topTrumpsRound;
-final int NUM_OF_PLAYERS = 5;
-/* Array index of the player whose turn it is  */
-private int playersTurnPos;
-private int currentRound;
+public class Game {         //TODO METHODS TO ACCESS INFORMATION FOR THE DATABASE AND FOR THE LOG FROM ROUND
+private DebugLog log;
+private Deck topTrumpsDeck;
+private Round topTrumpsRound;
+/* Array containing all players currently in
+ * the game in their positions. The human player
+ * is at position 0 and the players never change
+ * position. */
+private Player[] players;
+/* Position of active player in the game  */
+private int activePlayer;
+private final int NUM_OF_PLAYERS = 5;
+
 
     /**
-     * Game default constructor
+     * Creates a game object. Deck, Round, and Player
+     * objects are initialised. First active player is
+     * chosen at random.
      * @param io IO object
      * @throws FileNotFoundException if deck file is not found
      */
     public Game(IO io) throws FileNotFoundException{
-        inputOutput = io;
-        topTrumpsDeck = new Deck(inputOutput);
-        players = new Player[NUM_OF_PLAYERS];
+        topTrumpsDeck = new Deck(io);
         topTrumpsRound = new Round(NUM_OF_PLAYERS);
 
-        for (int i = 0; i < NUM_OF_PLAYERS; i++) {
-            players[i] = new Player();
-        }
+        players = new Player[NUM_OF_PLAYERS];
+        Arrays.fill(players, new Player());
 
-        /* Picks first player at random */
-        playersTurnPos = (int)(Math.random() *4);
+        activePlayer = (int)(Math.random() *4);
     }
 
     /**
-     * Game constructor in debug mode
+     * Creates a game object in debug mode. Deck, Round, DebugLog,
+     * and Player objects are initialised. The original deck is
+     * printed to the log. First active player is chosen at random.
      * @param io IO object
      * @param dl DebugLog object
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException if deck file is not found
      */
     public Game(IO io, DebugLog dl) throws FileNotFoundException{
-    inputOutput = io;
-    log = dl;
-    topTrumpsDeck = new Deck(inputOutput);
+    topTrumpsDeck = new Deck(io);
     topTrumpsRound = new Round(NUM_OF_PLAYERS);
 
+    log = dl;
     log.printDeck(topTrumpsDeck.getGameDeck(), -1);
 
     players = new Player[NUM_OF_PLAYERS];
+    Arrays.fill(players, new Player());
 
-        for (int i = 0; i < NUM_OF_PLAYERS; i++) {
-             players[i] = new Player();
-        }
-
-    /* Picks first player at random */
-    playersTurnPos = (int)(Math.random() *4);
+    activePlayer = (int)(Math.random() *4);
     }
 
     /**
-     * Deals cards to each player
+     * Shuffles the deck and assigns all game deck
+     * cards to each player's individual deck. If in debug
+     * mode - the shuffled deck and each player's deck are
+     * printed to the log.
      */
     public void dealCards() {
         topTrumpsDeck.shuffleDeck();
 
+        int deckSize = topTrumpsDeck.getGameDeck().size();
         int currentPos = 0;
-        for (int i = 0; i < topTrumpsDeck.DECK_SIZE; i++) {
+        for (int i = 0; i < deckSize; i++) {
             Card c = topTrumpsDeck.getCardAt(i);
             players[currentPos % NUM_OF_PLAYERS].addCard(c);
             currentPos++;
         }
 
-        /* Print player's decks to log in debug mode */
         if (log != null) {
+            /* Prints shuffled deck to log file */
             log.printDeck(topTrumpsDeck.getGameDeck(), -2);
 
+            /* Prints each player's deck to log file */
             for (int i = 0; i < NUM_OF_PLAYERS; i++) {
                 log.printDeck(players[i].getPlayerDeck(), i);
             }
@@ -83,59 +93,86 @@ private int currentRound;
     }
 
     /**
-     * Gets the attribute descriptions of the deck in play.
-     * @return String[] attribute descriptions
+     * Gets an array containing the deck's category labels.
+     * @return String[] category labels
      */
-    public String[] getDeckDescriptions() {
-        return topTrumpsDeck.getStatDescr();
+    public String[] getCategoryLabels() {
+        return topTrumpsDeck.getCatLabels();
     }
 
     /**
-     * Gets the position of the player whose turn it is.
-     * @return
+     * Gets the position of the current active player.
+     * @return int active player position
      */
-    public int getPlayersTurnPos() {
-        return playersTurnPos;
+    public int getActivePlayer() {
+        return activePlayer;
     }
 
     /**
-     * Gets the human player's card             //if this doesnt work -> player eliminated
-     * @return                                  //needs to be acounted for in view
+     * Draws and returns the human player's topmost card.               //if this doesnt work -> player eliminated
+     * @return Card human player's topmost card                        //needs to be acounted for in view
      */
     public Card getPlayerCard() {
         return players[0].drawCard();
     }
 
     /**
-     * Returns the current round number
+     * Gets the current round number.
      * @return int current round
      */
     public int getCurrentRound() {
         return topTrumpsRound.getCurrentRound();
     }
 
-    public int getStatChosen() {
-        return topTrumpsRound.getStatChosen();
+    /**
+     * Draws cards from each player's deck and plays a round
+     * with a given category. Changes current active player
+     * if round wasn't a draw. Returns position of winner
+     * or -1 if round was a draw.
+     * @param category position of category
+     * @return int position of winner or -1 in case of draw
+     */
+    public int playRound(int category) {
+        Card[] roundCards = new Card[NUM_OF_PLAYERS];
+
+        for (int i = 0; i < NUM_OF_PLAYERS; i++) {
+            roundCards[i] = players[i].drawCard();      //if NULL skip
+        }
+
+        int roundWinner = topTrumpsRound.compareCards(roundCards, category);
+        if (roundWinner != -1)
+            activePlayer = roundWinner;
+
+        return roundWinner;
     }
 
     /**
-     * Plays a round of Top Trumps .
-     * @param humanCategoryChoice category chosen by human or -1 if not human's turn
-     * @return boolean if this is last round
+     * Gets a Card array with the cards that ended
+     * in a draw. The Cards' position in the array match
+     * the position of the player.
+     * @return Card[] draw cards
      */
-    public boolean playRound(int humanCategoryChoice) {
-        Card[] round = new Card[NUM_OF_PLAYERS];
+    public Card[] getPlayersDrawCards() {
+        return topTrumpsRound.getDrawCards();
+    }
 
-        for (int i = 0; i < NUM_OF_PLAYERS; i++) {
-            round[i] = players[i].drawCard();
+    /**
+     * Gets the card that won the round.
+     * @return Card winning card
+     */
+    public Card getWinningCard() {
+        return topTrumpsRound.getWinningCard();
+    }
+
+    /**
+     * Gets all the cards up for taking in the round
+     * and assign them to the winning player.
+     * @param winnerPos position of winner
+     */
+    public void winnerTakeCards(int winnerPos) {
+        ArrayList<Card> cards = topTrumpsRound.takeAllCards();
+        for (Card c: cards) {
+            players[activePlayer].addCard(c);
         }
-
-        if (humanCategoryChoice == -1) {
-            topTrumpsRound.compareCards(round, players[playersTurnPos].aiChooseCategory());
-        }
-        else
-            topTrumpsRound.compareCards(round, humanCategoryChoice);
-
-        return true;  //placeholder
     }
 }
