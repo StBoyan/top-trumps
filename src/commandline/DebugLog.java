@@ -3,21 +3,30 @@ package commandline;
 import java.util.ArrayList;
 
 /**
- * Class to generate the debug log
+ * This class models the Debug Log in a game of Top Trumps
+ * played in debug mode. Its purpose is to format game
+ * data into Strings that can be printed to a log file.
  */
-public class DebugLog {
+public class DebugLog {                                         //TODO implement more methods to print other requirements
     IO inputOutput;
 
+    /**
+     * Creates a DebugLog object and assigns the IO
+     * object to be used for printing to the log file.
+     * @param io IO object
+     */
     public DebugLog(IO io) {
         inputOutput = io;
     }
 
     /**
-     * Prints deck to log file
-     * @param deck Arraylist of deck to be printed
-     * @param deckType int type of deck; -1 unshuffled deck,
-     *                 -2 shuffled deck, 0 human's deck,
-     *                 1-4 AI player deck
+     * Formats and writes a deck to the log file. Takes an
+     * ArrayList of Cards objects to print. Also takes an
+     * integer which is used to put a label before each
+     * deck. Possible values are -2 for shuffled, -1 for
+     * shuffled, and 0 to 4 for Player decks.
+     * @param deck ArrayList of Card objects
+     * @param deckType type of deck
      */
     public void printDeck(ArrayList<Card> deck, int deckType) {
         StringBuilder deckLog = new StringBuilder();
@@ -38,7 +47,7 @@ public class DebugLog {
             deckLog.append("\n");
         }
 
-        for (int i = 0; i < 25; i++) { //this will probably have to be changed - magic number
+        for (int i = 0; i < 25; i++) {      //TODO remove magic number
             deckLog.append("=");
         }
         deckLog.append("\n");

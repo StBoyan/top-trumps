@@ -3,16 +3,16 @@ package commandline;
 import java.util.Scanner;
 
 /**
- * Class to handle user interaction in the command line
- */
+ * TODO Class description
+ */                                                                         //TODO slow down printing at places. it is currently going too fast
 public class CommandLineView {
-    String[] deckAttributes;
-
+    private String[] deckAttributes;
+                                                              //TODO refactor this class - method names, efficiency, commenting
     /**
-     *  Display initial options
+     *  Display initial options                               //TODO write a private method to format cards for printing in a more readable way
      */
     public void optionsMenu() {
-        System.out.println("Game Menu:");
+        System.out.println("\nGame Menu:");
         System.out.println("1.) Start a new game [G]");
         System.out.println("2.) View statistics [S]");
         System.out.println("3.) Exit [Q]");
@@ -28,10 +28,10 @@ public class CommandLineView {
      */
     public char getMenuInput() {
         char userSelection;
-        Scanner in = new Scanner(System.in); //may need to increase scope to use in other user interactions
+        Scanner in = new Scanner(System.in); //TODO refactor to close scanner before returning
 
         for (;;) {
-            userSelection = in.next().charAt(0); //need to be able to handle empty char or space
+            userSelection = in.next().charAt(0); //TODO need to be able to handle empty char or space
 
             switch (userSelection) {
                 case 'G':
@@ -42,7 +42,7 @@ public class CommandLineView {
                     return userSelection;
                 case 'Q':
                 case 'q':
-                    return userSelection;       //case empty string
+                    return userSelection;
                 default:
                     System.out.print("Choose an option: ");
                     break;
@@ -62,13 +62,13 @@ public class CommandLineView {
      * Informs the user the game is about to begin
      */
     public void gameStarting() {
-        System.out.println("Game is about to begin!");
+        printDelay("Game is about to begin!\n", 1, 350);
         System.out.print("Shuffling deck");
-        printDelay(".",3, 450);
+        printDelay(".",3, 400);
         System.out.print("\nDealing cards");
-        printDelay(".",3, 450);
+        printDelay(".",3, 400);
         System.out.println("");
-        printDelay("You are player #1\n\n", 1, 500);
+        printDelay("You are player #1\n", 1, 450);
     }
 
     /**
@@ -76,7 +76,7 @@ public class CommandLineView {
      * @param rnd round number
      */
     public void informRound(int rnd) {
-        String roundLine = "Round " + rnd + " starting!\n";
+        String roundLine = "\nRound " + rnd + " starting!\n\n";
         printDelay(roundLine, 1, 450);
     }
 
@@ -97,7 +97,7 @@ public class CommandLineView {
      *                   1-4 - AI players
      * @return category selection; -1 if its not human's turn
      */
-    public int informPlayerTurn(int playerTurn) {       //method name sucks
+    public int informPlayerTurn(int playerTurn) {
         if (playerTurn == 0) {
             printDelay("Your turn to pick a category\n", 1, 500);
             for (int i = 0; i < 5; i++) {
@@ -105,10 +105,10 @@ public class CommandLineView {
             }
             System.out.print("\nEnter category number:");
             Scanner in = new Scanner(System.in);
-            return in.nextInt() - 1;            //needs to be able to validate user input
+            return in.nextInt() - 1;                 //TODO validate user input
         }
         else {
-            System.out.println("Player " + (playerTurn + 1) + " picks a category.");
+            System.out.println("Player #" + (playerTurn + 1) + " picks a category.");
             return -1;
         }
     }
@@ -117,16 +117,42 @@ public class CommandLineView {
      * Informs user of what category was chosen.
      * @param catPos int of position of category
      */
-    public void informUserOfCatChosen(int catPos) {
-        String catLine = String.format("Cards are compared by " + deckAttributes[catPos] + ".\n");
+    public void informUserOfCatChosen(int catPos) {         //TODO make this method more readable
+        String catLine = String.format("Cards are compared by " + deckAttributes[catPos] + " ("+ (catPos + 1) +").\n");
         printDelay(catLine, 1, 350);
+    }
+
+    /**
+     * Informs user of round winner and card that won the round.
+     * @param winnerPos position of winner
+     * @param c Card object of winning card
+     */
+    public void informRoundResult(int winnerPos, Card c) {
+        String resultLine = "Player #" + (winnerPos + 1) + " wins the round with: " + c.toString() + "\n";       //TODO check whether concatenation or String.format is more efficient
+        printDelay(resultLine, 1, 300);
+    }
+
+    /**
+     * Informs of a draw.
+     * @param draw
+     */
+    public void informRoundResult(Card[] draw) {                    //TODO make this more efficient; String concatenation is bad
+        String resultLine = "This round was a draw.\n";
+
+        for (int i = 0; i < draw.length; i++) {                     //TODO check why cards aren't printed (maybe round doesn't properly keep track of cards)
+            if (draw[i] != null) {
+                resultLine+= "Player #" + (i + 1) + "played ";
+                resultLine+= draw[i].toString() + "\n";
+            }
+        }
+        printDelay(resultLine, 1, 300);
     }
 
     /**
      * Sets the name of the attributes used in the game.
      * @param attr String array with attributes
      */
-    public void setDeckAttributes(String[] attr) {
+    public void setDeckCategoryLabels(String[] attr) {
         deckAttributes = attr;
     }
 

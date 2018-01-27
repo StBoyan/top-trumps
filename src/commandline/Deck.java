@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class Deck {
     private ArrayList<Card> gameDeck;
-    private String[] catNames;
+    private String[] catLabels;
 
 
     /**
@@ -36,8 +36,8 @@ public class Deck {
         Scanner in = new Scanner(deck);
 
         /* Removes "Description" from the first line of the deck String
-         * and puts the names in the catNames array */
-        catNames = in.nextLine().replace("Description ", "").split(" ");
+         * and puts the names in the catLabels array */
+        catLabels = in.nextLine().replace("Description ", "").split(" ");
 
         while (in.hasNext()) {
             String[] line = in.nextLine().split(" ");
@@ -71,10 +71,10 @@ public class Deck {
     }
 
     /**
-     * Returns the array of the category names.
-     * @return String[] of category names
+     * Returns the array of the category labels.
+     * @return String[] of category labels
      */
-    public String[] getCatNames() {
-        return catNames;
+    public String[] getCatLabels() {
+        return catLabels;
     }
 }

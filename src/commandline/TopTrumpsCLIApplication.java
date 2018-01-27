@@ -19,21 +19,21 @@ public class TopTrumpsCLIApplication {
 			writeGameLogsToFile=true;
 		
 		boolean userWantsToQuit = false;
-        Controller appController = new Controller();
+        GameController topTrumpsController = new GameController();
         
 		while (!userWantsToQuit) {
-            appController.showMenu();
-            char input = appController.menuInput();
+            topTrumpsController.showMenu();
+            char input = topTrumpsController.menuInput();
 
             if (input == 'G' || input == 'g')
             	try {
-					appController.startGame(writeGameLogsToFile);
+					topTrumpsController.startGame(writeGameLogsToFile);
 				}
 				catch (FileNotFoundException e) {
 				userWantsToQuit=true;
 				}
             if (input == 'S' || input == 's')
-                appController.showStatistics();
+                topTrumpsController.showStatistics();
             if (input == 'Q' || input == 'q')
                 userWantsToQuit=true;
 		}

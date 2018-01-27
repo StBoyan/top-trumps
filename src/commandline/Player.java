@@ -40,6 +40,16 @@ public class Player {
     }
 
     /**
+     * Returns the first Card object of this Player. This
+     * method should not be used for playing a round since
+     * it does not remove the card from the player's deck.
+     * @return Card card on top of deck
+     */
+    public Card getFirstCard() {
+        return playerDeck.get(0);
+    }
+
+    /**
      * Chooses the highest value category of the first
      * card in the player's deck.
      * @return int position of highest value category

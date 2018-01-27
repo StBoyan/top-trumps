@@ -59,7 +59,9 @@ private final int NUM_OF_PLAYERS = 5;
     log.printDeck(topTrumpsDeck.getGameDeck(), -1);
 
     players = new Player[NUM_OF_PLAYERS];
-    Arrays.fill(players, new Player());
+    for (int i = 0; i < NUM_OF_PLAYERS; i++) {
+        players[i] = new Player();
+    }
 
     activePlayer = (int)(Math.random() *4);
     }
@@ -109,11 +111,11 @@ private final int NUM_OF_PLAYERS = 5;
     }
 
     /**
-     * Draws and returns the human player's topmost card.               //if this doesnt work -> player eliminated
-     * @return Card human player's topmost card                        //needs to be acounted for in view
+     * Draws and returns the human player's topmost card.
+     * @return Card human player's topmost card
      */
     public Card getPlayerCard() {
-        return players[0].drawCard();
+        return players[0].getFirstCard();
     }
 
     /**
@@ -136,7 +138,7 @@ private final int NUM_OF_PLAYERS = 5;
         Card[] roundCards = new Card[NUM_OF_PLAYERS];
 
         for (int i = 0; i < NUM_OF_PLAYERS; i++) {
-            roundCards[i] = players[i].drawCard();      //if NULL skip
+            roundCards[i] = players[i].drawCard();      //TODO if NULL skip
         }
 
         int roundWinner = topTrumpsRound.compareCards(roundCards, category);
@@ -172,7 +174,38 @@ private final int NUM_OF_PLAYERS = 5;
     public void winnerTakeCards(int winnerPos) {
         ArrayList<Card> cards = topTrumpsRound.takeAllCards();
         for (Card c: cards) {
-            players[activePlayer].addCard(c);
+            players[winnerPos].addCard(c);
         }
+    }
+
+    /**
+     * Checks if the game is finished (i.e. there
+     * is only 1 player) and returns true if finished
+     * or false if not.
+     * @return boolean whether the game is finished or not
+     */
+    public boolean isFinished() {
+        int playersLeft = 0;
+
+        for (int i = 0; i < NUM_OF_PLAYERS; i++) {
+            if (players[i] != null)
+                playersLeft++;
+        }
+
+        if (playersLeft > 1)
+            return false;
+        else
+            return true;
+
+    }
+
+    /**
+     * Gets the best category (i.e. one with highest value)
+     * for an AI player. This method should only get called if
+     * it is an AI player's turn.
+     * @return int position of category to be played
+     */
+    public int chooseCategoryAI() {
+        return players[activePlayer].getBestCategory();
     }
 }
