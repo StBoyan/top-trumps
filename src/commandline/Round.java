@@ -122,6 +122,15 @@ public class Round {
     }
 
     /**
+     * Returns the ArrayList containing the communal
+     * pile.
+     * @return ArrayList communal pile Cards
+     */
+    public ArrayList<Card> getCommunalPile() {
+        return communalPile;
+    }
+
+    /**
      * Returns an ArrayList containing all the rounds played
      * in the current round and all the cards in the communal
      * pile (if there is one). Communal pile is also cleared.

@@ -137,6 +137,9 @@ private final int NUM_OF_PLAYERS = 5;
     public int playRound(int category) {
         Card[] roundCards = new Card[NUM_OF_PLAYERS];
 
+        if (log != null)
+            log.printCommunalPile(topTrumpsRound.getCommunalPile());
+
         for (int i = 0; i < NUM_OF_PLAYERS; i++) {
             roundCards[i] = players[i].drawCard();      //TODO if NULL skip
         }

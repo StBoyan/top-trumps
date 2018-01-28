@@ -1,5 +1,6 @@
 package commandline;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,8 @@ import java.util.ArrayList;
  * data into Strings that can be printed to a log file.
  */
 public class DebugLog {                                         //TODO implement more methods to print other requirements
-    IO inputOutput;
+    private IO inputOutput;
+    private final int LINE_SEPARATOR_LENGTH = 25;
 
     /**
      * Creates a DebugLog object and assigns the IO
@@ -21,7 +23,7 @@ public class DebugLog {                                         //TODO implement
 
     /**
      * Formats and writes a deck to the log file. Takes an
-     * ArrayList of Cards objects to print. Also takes an
+     * ArrayList of Card objects to print. Also takes an
      * integer which is used to put a label before each
      * deck. Possible values are -2 for shuffled, -1 for
      * shuffled, and 0 to 4 for Player decks.
@@ -42,16 +44,43 @@ public class DebugLog {                                         //TODO implement
             deckLog.append(" (AI) Deck:\n");
         }
 
-        for (int i = 0; i < deck.size(); i++) {
-            deckLog.append(String.valueOf(deck.get(i)));
-            deckLog.append("\n");
+        for (Card c : deck) {
+            deckLog.append(String.valueOf(c)).append("\n");
         }
 
-        for (int i = 0; i < 25; i++) {      //TODO remove magic number
+        for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {
             deckLog.append("=");
         }
         deckLog.append("\n");
 
         inputOutput.writeLog(deckLog.toString());
+    }
+
+    /**
+     * Formats and writes the communal pile to the log file.
+     * Takes an ArrayList of Card objects to print. If the
+     * ArrayList is empty an appropriate message is printed
+     * instead.
+     * @param commPile ArrayList of Card objects
+     */
+    public void printCommunalPile(ArrayList<Card> commPile) {
+        StringBuilder pileLog = new StringBuilder();
+
+        if (commPile.size() == 0) {
+            pileLog.append("Communal pile is empty.\n");
+        }
+        else {
+            pileLog.append("\tCommunal pile:\n");
+            for (Card c : commPile) {
+                pileLog.append(String.valueOf(c)).append("\n");
+            }
+        }
+
+        for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {
+            pileLog.append("=");
+        }
+        pileLog.append("\n");
+
+        inputOutput.writeLog(pileLog.toString());
     }
 }
