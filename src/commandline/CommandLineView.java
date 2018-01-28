@@ -13,7 +13,7 @@ public class CommandLineView {
      */
     public void optionsMenu() {
         System.out.println("\nGame Menu:");
-        System.out.println("1.) Start a new game [G]");
+        System.out.println("1.) Start a new game [G]");             //TODO personalised messages for player #1
         System.out.println("2.) View statistics [S]");
         System.out.println("3.) Exit [Q]");
         System.out.print("Choose an option: ");
@@ -146,6 +146,20 @@ public class CommandLineView {
             }
         }
         printDelay(resultLine, 1, 300);
+    }
+
+    /**
+     * Inform of eliminated players
+     * @param elimPlayers
+     */
+    public void informPlayerEliminations(boolean[] elimPlayers) {
+        for (int i = 0; i < elimPlayers.length; i++) {
+            if (elimPlayers[i]) {
+                String line = "Player #" + (i + 1) + "has been eliminated.\n";
+                printDelay(line, 1, 300);
+            }
+        }
+
     }
 
     /**

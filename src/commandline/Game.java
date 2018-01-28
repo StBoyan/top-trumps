@@ -201,11 +201,30 @@ private final int NUM_OF_PLAYERS = 5;
 
     /**
      * Gets the best category (i.e. one with highest value)
-     * for an AI player. This method should only get called if
+     * for an AI player. This method should only be called if
      * it is an AI player's turn.
      * @return int position of category to be played
      */
     public int chooseCategoryAI() {
         return players[activePlayer].getBestCategory();
+    }
+
+    /**
+     * Removes players who do not have any cards left in their deck
+     * from the players array. Returns a boolean array denoting the
+     * position of the player(s) which were removed.
+     * @return boolean[] pos of eliminated players
+     */
+    public boolean[] removeEliminatedPlayers() {
+        boolean[] isEliminatedPlayers = new boolean[NUM_OF_PLAYERS];
+
+        for (int i = 0; i < NUM_OF_PLAYERS; i++) {
+             if (players[i].getPlayerDeck().size() == 0) {           //TODO MAY NEED TO HANDLE NULL POSITIONS
+                players[i] = null;
+                isEliminatedPlayers[i] = true;
+            }
+        }
+
+        return isEliminatedPlayers;
     }
 }

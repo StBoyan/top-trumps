@@ -78,6 +78,8 @@ private Game topTrumpsGame;
                 console.informRoundResult(rndResult, topTrumpsGame.getWinningCard());
                 topTrumpsGame.winnerTakeCards(rndResult);
             }
+
+            console.informPlayerEliminations(topTrumpsGame.removeEliminatedPlayers());
         }
     }
 
