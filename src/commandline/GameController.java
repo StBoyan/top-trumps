@@ -43,6 +43,7 @@ private Game topTrumpsGame;
                 IO inputOutput = new IO(true);
                 DebugLog log = new DebugLog(inputOutput);
                 topTrumpsGame = new Game(inputOutput, log);
+                log.setCategoryLabels(topTrumpsGame.getCategoryLabels());
             } else if (!debug) {
                 IO inputOutput = new IO(false);
                 topTrumpsGame = new Game(inputOutput);

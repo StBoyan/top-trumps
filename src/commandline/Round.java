@@ -57,6 +57,8 @@ public class Round {
         /* Compare other cards in play this round to
          * the current highest */
         for (int i = 1; i < c.length; i++) {
+            if (roundCards == null)         //TODO comment
+                continue;
             int stat = roundCards[i].getCatValueAt(catPos);
 
             /* If card is higher thar current highest, set it

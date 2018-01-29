@@ -10,7 +10,8 @@ import java.util.ArrayList;
  */
 public class DebugLog {                                         //TODO implement more methods to print other requirements
     private IO inputOutput;
-    private final int LINE_SEPARATOR_LENGTH = 25;
+    private String[] categoryLabels;
+    private final int LINE_SEPARATOR_LENGTH = 25;                           //TODO separate rounds with "=" and info within round with "-"
 
     /**
      * Creates a DebugLog object and assigns the IO
@@ -109,5 +110,44 @@ public class DebugLog {                                         //TODO implement
         cardsLog.append("\n");
 
         inputOutput.writeLog(cardsLog.toString());
+    }
+
+    /**
+     * Formats and writes the category chosen and the values
+     * that are compared in a round to the log file. Takes an
+     * integer denoting the position of the category chosen
+     * and an integer array containing the values compared.
+     * @param cat position of category chosen
+     * @param catValues values compared
+     */
+    public void printCatValues(int cat, int[] catValues) {
+        StringBuilder catLog = new StringBuilder();
+
+        catLog.append("Category selected is ").append(categoryLabels[cat]);
+        catLog.append("\n");
+
+        for (int i = 0; i < catValues.length; i ++) {
+            catLog.append("P#").append(i + 1).append(" ");
+            if (catValues[i] != -1)
+                catLog.append(catValues[i]).append("\n");
+            else
+                catLog.append("no value\n");
+        }
+
+        for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {
+            catLog.append("=");
+        }
+        catLog.append("\n");
+
+        inputOutput.writeLog(catLog.toString());
+    }
+
+    /**
+     * Sets the category labels that will be used in
+     * the game.
+     * @param catLabels String[] with category labels
+     */
+    public void setCategoryLabels(String[] catLabels) {
+        categoryLabels = catLabels;
     }
 }

@@ -154,6 +154,19 @@ private final int NUM_OF_PLAYERS = 5;
         if (log != null)
             log.printCardsInPlay(topTrumpsRound.getRoundCards());
 
+        if (log!= null) {                           //TODO make this a separate private method
+            int[] catVals = new int[NUM_OF_PLAYERS];
+            Card[] cards = topTrumpsRound.getRoundCards();
+            for (int i = 0; i < NUM_OF_PLAYERS; i++) {
+                if (cards[i] != null)
+                    catVals[i] = cards[i].getCatValueAt(category);
+                else
+                    catVals[i] = -1;
+            }
+            log.printCatValues(category, catVals);
+        }
+
+
         return roundWinner;
     }
 
