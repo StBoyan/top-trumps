@@ -50,14 +50,14 @@ public class Round {
     public int compareCards(Card[] c, int catPos) {
         roundCards = c;
         /* Set first player's card to be highest */
-        int highestStat = roundCards[0].getCatValueAt(catPos);
+        int highestStat = -1;       //TODO temporary solution        //roundCards[0].getCatValueAt(catPos);
         roundWinner = 0;
         boolean isDraw = false;
 
         /* Compare other cards in play this round to
          * the current highest */
-        for (int i = 1; i < c.length; i++) {
-            if (roundCards == null)         //TODO comment
+        for (int i = 0; i < c.length; i++) {
+            if (roundCards[i] == null)         //TODO comment
                 continue;
             int stat = roundCards[i].getCatValueAt(catPos);
 

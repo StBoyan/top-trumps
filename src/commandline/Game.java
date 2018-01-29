@@ -17,7 +17,7 @@ private DebugLog log;
 private Deck topTrumpsDeck;
 private Round topTrumpsRound;
 /* Array containing all players currently in
- * the game in their positions. The human player
+ * the game in their positions. The human player        //TODO MAYBE MOVE DEBUG LOGIC INTO GAMECONTROLLER AND CREATE METHODS IN GAME THAT HANDLE DEBUG
  * is at position 0 and the players never change
  * position. */
 private Player[] players;
@@ -115,7 +115,10 @@ private final int NUM_OF_PLAYERS = 5;
      * @return Card human player's topmost card
      */
     public Card getPlayerCard() {
-        return players[0].getFirstCard();
+        if (players[0] != null)                         //TODO change description
+            return players[0].getFirstCard();
+        else
+            return null;
     }
 
     /**
@@ -166,7 +169,6 @@ private final int NUM_OF_PLAYERS = 5;
             log.printCatValues(category, catVals);
         }
 
-
         return roundWinner;
     }
 
@@ -196,7 +198,8 @@ private final int NUM_OF_PLAYERS = 5;
     public void winnerTakeCards(int winnerPos) {
         ArrayList<Card> cards = topTrumpsRound.takeAllCards();
         for (Card c: cards) {
-            players[winnerPos].addCard(c);
+            if (c != null)          //TODO comment
+                players[winnerPos].addCard(c);
         }
     }
 
@@ -240,13 +243,25 @@ private final int NUM_OF_PLAYERS = 5;
     public boolean[] removeEliminatedPlayers() {
         boolean[] isEliminatedPlayers = new boolean[NUM_OF_PLAYERS];
 
-        for (int i = 0; i < NUM_OF_PLAYERS; i++) {
-             if (players[i].getPlayerDeck().size() == 0) {           //TODO MAY NEED TO HANDLE NULL POSITIONS
-                players[i] = null;
-                isEliminatedPlayers[i] = true;
+        for (int i = 0; i < NUM_OF_PLAYERS; i++) {                      //TODO need new description
+            if (players[i] != null)
+                if (players[i].getPlayerDeck().size() == 0) {           //TODO MAY NEED TO HANDLE NULL POSITIONS
+                    players[i] = null;
+                    isEliminatedPlayers[i] = true;
             }
         }
 
         return isEliminatedPlayers;
+    }
+
+    /**
+     * TODO THIS WILL GET CHANGED
+     * It is just for testing purposes right now.
+     */
+    public void temporaryPrintPlayerDecks() {
+        for (int i = 0; i < NUM_OF_PLAYERS; i++) {
+            if (players[i] != null)
+            log.printDeck(players[i].getPlayerDeck(), i);
+        }
     }
 }

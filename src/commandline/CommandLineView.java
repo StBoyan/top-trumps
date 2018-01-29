@@ -162,6 +162,11 @@ public class CommandLineView {
 
     }
 
+    public void informGameWinner(int playerPos) {
+        String winnerLine = "Player #" + playerPos +" wins the game!";
+        printDelay(winnerLine, 1, 500);
+    }
+
     /**
      * Sets the name of the attributes used in the game.
      * @param attr String array with attributes

@@ -59,7 +59,8 @@ private Game topTrumpsGame;
 
         while (!topTrumpsGame.isFinished()) {                                             //TODO need to inform user if he is eliminated here and trigger fast finish
             console.informRound(topTrumpsGame.getCurrentRound());
-            console.informPlayerCard(topTrumpsGame.getPlayerCard().toString());
+            if (topTrumpsGame.getPlayerCard() != null)
+                console.informPlayerCard(topTrumpsGame.getPlayerCard().toString());     //TODO change this and prev line
 
             int category;
             int actPlayer = topTrumpsGame.getActivePlayer();
@@ -79,9 +80,11 @@ private Game topTrumpsGame;
                 console.informRoundResult(rndResult, topTrumpsGame.getWinningCard());
                 topTrumpsGame.winnerTakeCards(rndResult);
             }
-
+            topTrumpsGame.temporaryPrintPlayerDecks();
             console.informPlayerEliminations(topTrumpsGame.removeEliminatedPlayers());
         }
+
+        console.informGameWinner(topTrumpsGame.getActivePlayer());
     }
 
     /**
