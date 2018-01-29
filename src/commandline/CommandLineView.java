@@ -155,7 +155,7 @@ public class CommandLineView {
     public void informPlayerEliminations(boolean[] elimPlayers) {
         for (int i = 0; i < elimPlayers.length; i++) {
             if (elimPlayers[i]) {
-                String line = "Player #" + (i + 1) + "has been eliminated.\n";
+                String line = "Player #" + (i + 1) + " has been eliminated.\n";
                 printDelay(line, 1, 300);
             }
         }

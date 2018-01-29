@@ -113,6 +113,14 @@ public class Round {
     }
 
     /**
+     * Returns an Array with the cards in play.
+     * @return Card[] cards in play
+     */
+    public Card[] getRoundCards() {
+        return roundCards;
+    }
+
+    /**
      * Returns the Card object that had the
      * highest category value in the round.
      * @return Card winning card

@@ -48,7 +48,7 @@ public class DebugLog {                                         //TODO implement
             deckLog.append(String.valueOf(c)).append("\n");
         }
 
-        for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {
+        for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {   //TODO make private method
             deckLog.append("=");
         }
         deckLog.append("\n");
@@ -82,5 +82,32 @@ public class DebugLog {                                         //TODO implement
         pileLog.append("\n");
 
         inputOutput.writeLog(pileLog.toString());
+    }
+
+    /**
+     * Formats and writes the cards in play in a round to the
+     * log file. Takes an array of Card objects. Prints "no card"
+     * if a position is empty (i.e. in case of an eliminated player).
+     * @param cards cards in play Array
+     */
+    public void printCardsInPlay(Card[] cards) {
+        StringBuilder cardsLog = new StringBuilder();
+
+        cardsLog.append("Cards in play:\n");
+
+        for (int i = 0; i < cards.length; i++) {
+            cardsLog.append("P#").append(i + 1).append(" ");
+            if (cards[i] != null)
+                cardsLog.append(String.valueOf(cards[i])).append("\n");
+            else
+                cardsLog.append("no card\n");
+        }
+
+        for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {
+            cardsLog.append("=");
+        }
+        cardsLog.append("\n");
+
+        inputOutput.writeLog(cardsLog.toString());
     }
 }

@@ -138,15 +138,21 @@ private final int NUM_OF_PLAYERS = 5;
         Card[] roundCards = new Card[NUM_OF_PLAYERS];
 
         if (log != null)
-            log.printCommunalPile(topTrumpsRound.getCommunalPile());
+            log.printCommunalPile(topTrumpsRound.getCommunalPile());        //TODO NEEDS in-method comments; maybe combine log prints to a separate method
 
         for (int i = 0; i < NUM_OF_PLAYERS; i++) {
-            roundCards[i] = players[i].drawCard();      //TODO if NULL skip
+            if (players[i] != null)
+                roundCards[i] = players[i].drawCard();
+            else
+                roundCards[i] = null;
         }
 
         int roundWinner = topTrumpsRound.compareCards(roundCards, category);
         if (roundWinner != -1)
             activePlayer = roundWinner;
+
+        if (log != null)
+            log.printCardsInPlay(topTrumpsRound.getRoundCards());
 
         return roundWinner;
     }
