@@ -20,92 +20,13 @@
 
 	</head>
 
-    <body background="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\background.jpg" id="bg" alt="" onload="initalize()"> <!-- Call the initalize method when the page loads -->
+    <body onload="initalize()"> <!-- Call the initalize method when the page loads -->
     	
     	<div class="container">
 
 			<!-- Add your HTML Here -->
-
-	
-	
-	<!-- row of AI cards // top of the screen -->
-	<div class="row justify-content-start">
-	
-		<!-- card 1-->
-		<div class="col align="middle"">
-		<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\card.jpeg" alt="Card Background" width="150" height="200">
-		</div>
-		
-		<!-- card 2 --> 
-		<div class="col align="middle"">
-		<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\card.jpeg" alt="Card Background" width="150" height="200">
-		</div>
-		
-		<!-- card 3 --> 
-		<div class="col align="middle"">
-		<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\card.jpeg" alt="Card Background" width="150" height="200">
-		</div>
-		
-		<!-- card 4 -->
-		<div class="col align="middle"">
-		<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\card.jpeg" alt="Card Background" width="150" height="200">
-		</div>
-	</div>
-	
-		
-		<!-- Middle of the screen-->
-		<div class="row justify-content-center">
-		
-			
-			<div class="col ">    
-		<!-- Alert for winning a round -->	
-			<div class="alert alert-success alert-dismissable">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Good job!</strong> You win this round.
-			</div>
-			
-		<!-- Alert for winning a game -->	
-			<div class="alert alert-info alert-dismissable">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Congratulations!</strong> You win the game.
-			</div>
-			
-		<!-- Alert for loosing a round -->	
-			<div class="alert alert-warning alert-dismissable">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				You lost this round.
-			</div>
-			
-		<!-- Alert for loosing a game -->	
-			<div class="alert alert-danger alert-dismissable">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Bad Luck!</strong> You lost the game.
-			</div>
-		</div>	
-		
-			<div class="col-md-7 offset-md-3">
-			<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\card.jpeg" alt="Card Background" width="150" height="200">
-			</div>
 		
 		</div>
-			
-			
-			
-				
-		</div>
-		
-		<!-- Bottom of the screen -->
-		
-	<!-- Communal pile -->
-				<div class="row justify-content-end" align="left">
-
-			<div class="col-t-7 offset-md-5">
-			<div class="col">
-			<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\pile.jpeg" alt="Card Background" width="200" height="150">
-			</div>	
-			</div>
-	
-	</div>
 		
 		<script type="text/javascript">
 		

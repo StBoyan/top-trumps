@@ -20,7 +20,7 @@
 
 	</head>
 
-    <body background="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\background.jpg" id="bg" alt="" onload="initalize()"> <!-- Call the initalize method when the page loads -->
+    <body background="/content/images/background.jpg" id="bg" alt="" onload="initalize()"> <!-- Call the initalize method when the page loads -->
     	
     	<div class="container">
 
@@ -33,31 +33,39 @@
 	
 		<!-- card 1-->
 		<div class="col align="middle"">
-		<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\card.jpeg" alt="Card Background" width="150" height="200">
+		<img src="/content/images/card.jpeg" alt="Card Background" width="150" height="200">
 		</div>
 		
 		<!-- card 2 --> 
 		<div class="col align="middle"">
-		<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\card.jpeg" alt="Card Background" width="150" height="200">
+		<img src="/content/images/card.jpeg" alt="Card Background" width="150" height="200">
 		</div>
 		
 		<!-- card 3 --> 
 		<div class="col align="middle"">
-		<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\card.jpeg" alt="Card Background" width="150" height="200">
+		<img src="/content/images/card.jpeg" alt="Card Background" width="150" height="200">
 		</div>
 		
 		<!-- card 4 -->
 		<div class="col align="middle"">
-		<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\card.jpeg" alt="Card Background" width="150" height="200">
+		<img src="/content/images/card.jpeg" alt="Card Background" width="150" height="200">
 		</div>
 	</div>
 	
 		
 		<!-- Middle of the screen-->
 		<div class="row justify-content-center">
-		
-			
-			<div class="col ">    
+
+		<!-- Info updated to the user : PANEL -->
+
+		  <div class="col">
+			<div class="panel panel-primary">
+              <div class="panel-body">It is your turn</div>
+              <div class="panel-footer">Please choose a category</div>
+            </div>
+          </div>
+
+			<div class="col">
 		<!-- Alert for winning a round -->	
 			<div class="alert alert-success alert-dismissable">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -84,7 +92,7 @@
 		</div>	
 		
 			<div class="col-md-7 offset-md-3">
-			<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\card.jpeg" alt="Card Background" width="150" height="200">
+			<img src="C:/content/images/card.jpeg" alt="Card Background" width="150" height="200">
 			</div>
 		
 		</div>
@@ -101,7 +109,7 @@
 
 			<div class="col-t-7 offset-md-5">
 			<div class="col">
-			<img src="C:\Users\Dilyana\Documents\GitHub\octocat\top-trumps\src\pile.jpeg" alt="Card Background" width="200" height="150">
+			<img src="/content/images/pile.jpeg" alt="Card Background" width="200" height="150">
 			</div>	
 			</div>
 	
