@@ -162,8 +162,12 @@ public class CommandLineView {
 
     }
 
+    /**
+     * TODO comment
+     * @param playerPos
+     */
     public void informGameWinner(int playerPos) {
-        String winnerLine = "Player #" + playerPos +" wins the game!";
+        String winnerLine = "Player #" + (playerPos + 1) +" wins the game!";
         printDelay(winnerLine, 1, 500);
     }
 

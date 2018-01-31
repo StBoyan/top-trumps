@@ -1,12 +1,12 @@
 package commandline;
 
 import java.io.FileNotFoundException;
-
+                                            //TODO abstract class -> inherit onlinecontroller & clicontroller
 /**
  * TODO Class description
  */
 public class GameController {
-private CommandLineView console;
+private CommandLineView console;                //TODO packet models separate => import in online only models
 private Game topTrumpsGame;
 
     /**
