@@ -1,19 +1,22 @@
 package commandline;
 
+import commandline.controller.GameController;
 import java.io.FileNotFoundException;
 
 /**
- * Top Trumps command line application
+ * TODO generic commnents about the CLI app
  */
 public class TopTrumpsCLIApplication {
 
-     /**
-	 * This main method is called by TopTrumps.java when the user specifies that they want to run in
-	 * command line mode. The contents of args[0] is whether we should write game logs to a file.
- 	 * @param args
+	/**
+	 * TODO comment here and throughout method if necessary
+	 * @param args
 	 */
 	public static void main(String[] args) {
 		boolean writeGameLogsToFile = false;
+		/* Denotes how many players will play the game, inclusive
+		 * of human player */
+		final int NUM_OF_PLAYERS = 5;
 
 		if (args[0].equalsIgnoreCase("true"))
 			writeGameLogsToFile=true;
@@ -27,7 +30,7 @@ public class TopTrumpsCLIApplication {
 
             if (input == 'G' || input == 'g')
             	try {
-					topTrumpsController.startGame(writeGameLogsToFile);
+					topTrumpsController.newGame(NUM_OF_PLAYERS, writeGameLogsToFile);
 				}
 				catch (FileNotFoundException e) {
 				userWantsToQuit=true;

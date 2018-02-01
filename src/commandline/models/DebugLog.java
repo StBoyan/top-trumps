@@ -1,25 +1,30 @@
-package commandline;
+package commandline.models;
 
-import java.lang.reflect.Array;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
  * This class models the Debug Log in a game of Top Trumps
  * played in debug mode. Its purpose is to format game
- * data into Strings that can be printed to a log file.
+ * data into Strings and print them to the log file.
  */
-public class DebugLog {                                         //TODO implement more methods to print other requirements
-    private IO inputOutput;
+public class DebugLog {
+    private PrintWriter logWriter;
     private String[] categoryLabels;
-    private final int LINE_SEPARATOR_LENGTH = 25;                           //TODO separate rounds with "=" and info within round with "-"
 
     /**
-     * Creates a DebugLog object and assigns the IO
-     * object to be used for printing to the log file.
-     * @param io IO object
+     * Creates a DebugLog object and initialises a PrintWriter
+     * with the name of the file to write to.
      */
-    public DebugLog(IO io) {
-        inputOutput = io;
+    public DebugLog() {
+        File logFile = new File("toptrumps.log");
+        try {
+            logWriter = new PrintWriter(logFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -27,7 +32,8 @@ public class DebugLog {                                         //TODO implement
      * ArrayList of Card objects to print. Also takes an
      * integer which is used to put a label before each
      * deck. Possible values are -2 for shuffled, -1 for
-     * shuffled, and 0 to 4 for Player decks.
+     * shuffled, and 0 to 4 for Player decks (corresponding
+     * to their player index).
      * @param deck ArrayList of Card objects
      * @param deckType type of deck
      */
@@ -49,18 +55,15 @@ public class DebugLog {                                         //TODO implement
             deckLog.append(String.valueOf(c)).append("\n");
         }
 
-        for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {   //TODO make private method
-            deckLog.append("=");
-        }
-        deckLog.append("\n");
+        printSeparator(deckLog);
 
-        inputOutput.writeLog(deckLog.toString());
+        writeLog(deckLog.toString());
     }
 
     /**
      * Formats and writes the communal pile to the log file.
      * Takes an ArrayList of Card objects to print. If the
-     * ArrayList is empty an appropriate message is printed
+     * ArrayList is empty - writes a message stating that.
      * instead.
      * @param commPile ArrayList of Card objects
      */
@@ -77,24 +80,21 @@ public class DebugLog {                                         //TODO implement
             }
         }
 
-        for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {
-            pileLog.append("=");
-        }
-        pileLog.append("\n");
+        printSeparator(pileLog);
 
-        inputOutput.writeLog(pileLog.toString());
+        writeLog(pileLog.toString());
     }
 
     /**
      * Formats and writes the cards in play in a round to the
      * log file. Takes an array of Card objects. Prints "no card"
-     * if a position is empty (i.e. in case of an eliminated player).
+     * if an index is empty (i.e. in case of an eliminated player).
      * @param cards cards in play Array
      */
     public void printCardsInPlay(Card[] cards) {
         StringBuilder cardsLog = new StringBuilder();
 
-        cardsLog.append("Cards in play:\n");
+        cardsLog.append("\tCards in play:\n");
 
         for (int i = 0; i < cards.length; i++) {
             cardsLog.append("P#").append(i + 1).append(" ");
@@ -104,20 +104,19 @@ public class DebugLog {                                         //TODO implement
                 cardsLog.append("no card\n");
         }
 
-        for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {
-            cardsLog.append("=");
-        }
-        cardsLog.append("\n");
+        printSeparator(cardsLog);
 
-        inputOutput.writeLog(cardsLog.toString());
+        writeLog(cardsLog.toString());
     }
 
     /**
      * Formats and writes the category chosen and the values
      * that are compared in a round to the log file. Takes an
-     * integer denoting the position of the category chosen
+     * integer denoting the index of the category chosen
      * and an integer array containing the values compared.
-     * @param cat position of category chosen
+     * If a value is -1, prints "no value" (i.e. eliminated
+     * player).
+     * @param cat index of category chosen
      * @param catValues values compared
      */
     public void printCatValues(int cat, int[] catValues) {
@@ -134,12 +133,29 @@ public class DebugLog {                                         //TODO implement
                 catLog.append("no value\n");
         }
 
-        for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {
-            catLog.append("=");
-        }
-        catLog.append("\n");
+        printSeparator(catLog);
 
-        inputOutput.writeLog(catLog.toString());
+        writeLog(catLog.toString());
+    }
+
+    /**
+     * Formats and writes the winner of the game to
+     * the log file. Takes an integer denoting the index
+     * of the player who won.
+     * @param winPos index of winner
+     */
+    public void printGameWinner(int winPos) {
+        StringBuilder winLog = new StringBuilder();
+
+        winLog.append("\tWinner of the game:\n");
+        if (winPos == 0)
+            winLog.append("Player #1 (Human player)");
+        else
+            winLog.append("Player #").append(winPos+1).append(" (AI Player)");
+
+        printSeparator(winLog);
+
+        writeLog(winLog.toString());
     }
 
     /**
@@ -149,5 +165,29 @@ public class DebugLog {                                         //TODO implement
      */
     public void setCategoryLabels(String[] catLabels) {
         categoryLabels = catLabels;
+    }
+
+    /**
+     * Takes a StringBuilder object and appends a line
+     * used to separate the different contents reported
+     * in the log file.
+     * @param sb StringBuilder object to append to
+     */
+    private void printSeparator(StringBuilder sb) {
+        final char LINE_SEPARATOR = '=';
+        final int LINE_SEPARATOR_LENGTH = 25;
+        for (int i = 0; i < LINE_SEPARATOR_LENGTH; i++) {
+            sb.append(LINE_SEPARATOR);
+        }
+        sb.append("\n");
+    }
+
+    /**
+     * Writes a given String to the log file.
+     * @param logText text to be printed
+     */
+    private void writeLog(String logText) {
+        logWriter.append(logText);
+        logWriter.flush();
     }
 }

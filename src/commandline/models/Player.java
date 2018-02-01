@@ -1,4 +1,4 @@
-package commandline;
+package commandline.models;
 
 import java.util.ArrayList;
 
@@ -52,7 +52,7 @@ public class Player {
     /**
      * Chooses the highest value category of the first
      * card in the player's deck.
-     * @return int position of highest value category
+     * @return int index of highest value category
      */
     public int getBestCategory() {
         return playerDeck.get(0).getPosOfHighestCat();

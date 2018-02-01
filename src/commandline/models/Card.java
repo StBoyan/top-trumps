@@ -1,4 +1,4 @@
-package commandline;
+package commandline.models;
 
 /**
  * This class models a card in a game of Top Trumps.
@@ -25,8 +25,8 @@ public class Card {
     }
 
     /**
-     * Gets the category value at position n.
-     * @param pos category position
+     * Gets the category value at index n.
+     * @param pos category index
      * @return int category value
      */
     public int getCatValueAt(int pos) {
@@ -34,8 +34,8 @@ public class Card {
     }
 
     /**
-     * Gets the category position of the highest value.
-     * @return int position of highest value category
+     * Gets the category index of the highest value.
+     * @return int index of highest value category
      */
     public int getPosOfHighestCat() {
         int pos = 0;
@@ -52,7 +52,7 @@ public class Card {
     }
 
     /**
-     * Returns a string representation of a card object. That is -
+     * Returns a string representation of a Card object. That is -
      * its description followed by the category values, all of which
      * are delimited by whitespace.
      * @return String representation of a card object

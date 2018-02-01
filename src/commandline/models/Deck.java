@@ -1,47 +1,58 @@
-package commandline;
+package commandline.models;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
 /**
- * This class models the game deck used for a
- * game of Top Trumps. It contains all the Card objects,
- * and the category names, as well as methods to shuffle it,
- * access the Card objects, and the category names.
+ * This class models the game deck used for a game of
+ * Top Trumps. It contains all the Card objects, and the
+ * category names, as well as methods to create the
+ * deck, shuffle it, access the Card objects, and the
+ * category names.
  */
 public class Deck {
     private ArrayList<Card> gameDeck;
     private String[] catLabels;
 
-
     /**
-     * Creates a Deck object and constructs a deck exactly
-     * as read from the external source.
-     * @param io IO object
-     * @throws FileNotFoundException if external deck file is missing
+     * Creates a Deck object and initialises the class
+     * attributes by calling createDeck().
+     * @throws FileNotFoundException if deck file is not found
      */
-    public Deck(IO io) throws FileNotFoundException{
-        createDeck(io.readDeck());
+    public Deck() throws FileNotFoundException{
+        createDeck();
     }
 
-    /*
-     * Creates Card objects and assigns them to an ArrayList
-     * from a string representing the deck to be used in the game.
-     * @param deck String of the deck used in the game
+    /**
+     * Creates a String array with the category labels and an
+     * ArrayList of Card object as read from a deck file.
+     * @throws FileNotFoundException if deck file is not found
      */
-    private void createDeck(String deck) {
+    private void createDeck() throws FileNotFoundException {
+        final File DECK_FILE = new File("deck.txt");
         gameDeck = new ArrayList<Card>();
-        Scanner in = new Scanner(deck);
+        FileReader reader = new FileReader(DECK_FILE);
+        Scanner in = new Scanner(reader);
 
         /* Removes "Description" from the first line of the deck String
-         * and puts the names in the catLabels array */
+         * and puts the labels in the catLabels array */
         catLabels = in.nextLine().replace("Description ", "").split(" ");
 
         while (in.hasNext()) {
             String[] line = in.nextLine().split(" ");
             gameDeck.add(new Card(line));
+        }
+
+        in.close();
+        try {
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -54,8 +65,8 @@ public class Deck {
     }
 
     /**
-     * Returns the Card object at position n.
-     * @param pos position of card
+     * Returns the Card object at index n.
+     * @param pos index of card
      * @return Card Card object
      */
     public Card getCardAt(int pos) {
@@ -78,3 +89,4 @@ public class Deck {
         return catLabels;
     }
 }
+
