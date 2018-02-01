@@ -1,0 +1,26 @@
+CREATE TABLE toptrumps.Players(player_id INTEGER PRIMARY KEY,
+		    name VARCHAR(20),
+		    type VARCHAR(20)
+		    );
+			
+CREATE TABLE toptrumps.Game(game_id INTEGER PRIMARY KEY,
+		    rounds int,
+		    draws int
+		    );
+			
+CREATE TABLE toptrumps.Results(
+		game_id int CONSTRAINT Results_game_id REFERENCES toptrumps.Game( game_id),
+		game_winner int CONSTRAINT Results_game_winner REFERENCES toptrumps.Players( player_id),
+    		p1_round_wins int,
+    		p2_round_wins int,
+   	 	p3_round_wins int,
+    		p4_round_wins int,
+   		p5_round_wins int
+		    );
+			
+INSERT INTO toptrumps.players VALUES 
+(1, 'Player 1', 'human'),
+(2, 'Player 2', 'computer'),
+(3, 'Player 3', 'computer'),
+(4, 'Player 4', 'computer'),
+(5, 'Player 5', 'computer')
