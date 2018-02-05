@@ -42,10 +42,10 @@ private int numOfPlayers;
      * @param debug
      * @throws FileNotFoundException
      */
-    public void newGame(int playersNum, boolean debug) throws FileNotFoundException{
+    public void newGame(int playersNum, String deckFileName, boolean debug) throws FileNotFoundException{
         numOfPlayers = playersNum;
         try {
-        topTrumpsGame = new Game(numOfPlayers);
+        topTrumpsGame = new Game(numOfPlayers, deckFileName);
         } catch (FileNotFoundException e) {
             console.deckNotFoundError();
             throw new FileNotFoundException();

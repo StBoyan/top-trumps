@@ -30,7 +30,7 @@ public class TopTrumpsCLIApplication {
 
             if (input == 'G' || input == 'g')
             	try {
-					topTrumpsController.newGame(NUM_OF_PLAYERS, writeGameLogsToFile);
+					topTrumpsController.newGame(NUM_OF_PLAYERS, "deck.txt", writeGameLogsToFile);
 				}
 				catch (FileNotFoundException e) {
 				userWantsToQuit=true;

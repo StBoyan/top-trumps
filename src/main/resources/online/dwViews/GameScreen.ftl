@@ -1,214 +1,196 @@
-<html>
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<head>
-		<!-- Web page title -->
-    	<title>Top Trumps</title>
-    	
-    	<!-- Import JQuery, as it provides functions you will probably find useful (see https://jquery.com/) -->
-    	<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
-    	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-    	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/flick/jquery-ui.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-		<!-- Optional Styling of the Website, for the demo I used Bootstrap (see https://getbootstrap.com/docs/4.0/getting-started/introduction/) -->
-		<link rel="stylesheet" href="http://dcs.gla.ac.uk/~richardm/TREC_IS/bootstrap.min.css">
-    	<script src="http://dcs.gla.ac.uk/~richardm/vex.combined.min.js"></script>
-    	<script>vex.defaultOptions.className = 'vex-theme-os';</script>
-    	<link rel="stylesheet" href="http://dcs.gla.ac.uk/~richardm/assets/stylesheets/vex.css"/>
-    	<link rel="stylesheet" href="http://dcs.gla.ac.uk/~richardm/assets/stylesheets/vex-theme-os.css"/>
-    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <title>Top Trumps</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row" id="firstRow"></div>
+    <div class="row" id="secondRow"></div>
+</div>
 
-	</head>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script>
+    var game;
+    var gameStarted;
 
-    <body background="/content/images/background.jpg" id="bg" alt="" onload="initalize()"> <!-- Call the initalize method when the page loads -->
-    	
-    	<div class="container">
+    $(document).ready(function () {
+        startGame();
+    });
 
-			<!-- Add your HTML Here -->
 
-	
-	
-	<!-- row of AI cards // top of the screen -->
-	<div class="row justify-content-start">
-	
-		<!-- card 1-->
-		<div class="col align="middle"">
-		<img src="/content/images/card.jpeg" alt="Card Background" width="150" height="200">
-		</div>
-		
-		<!-- card 2 --> 
-		<div class="col align="middle"">
-		<img src="/content/images/card.jpeg" alt="Card Background" width="150" height="200">
-		</div>
-		
-		<!-- card 3 --> 
-		<div class="col align="middle"">
-		<img src="/content/images/card.jpeg" alt="Card Background" width="150" height="200">
-		</div>
-		
-		<!-- card 4 -->
-		<div class="col align="middle"">
-		<img src="/content/images/card.jpeg" alt="Card Background" width="150" height="200">
-		</div>
-	</div>
-	
-		
-		<!-- Middle of the screen-->
-		<div class="row justify-content-center">
+//Initializes a new game and displays an error message if something in the game logic goes wrong
+    function startGame() {
+        $.ajax({
+            type: "GET",
+            url: "/toptrumps/restart", // will restart the game every time the page is loaded
+            success: function (data) {
+                game = data;
+                console.log(game);
+                startRoundLogic();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus);
+                alert("Error: " + errorThrown);
+            }
+        });
+    }
 
-		<!-- Info updated to the user : PANEL -->
+// Handles each round
+    function playRound() {
+        $.ajax({
+            type: "GET",
+            url: "/toptrumps/play",
+            success: function (data) {
+                game = data;
+                console.log(game);
+                startRoundLogic();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus);
+                alert("Error: " + errorThrown);
+            }
+        });
+    }
 
-		  <div class="col">
-			<div class="panel panel-primary">
-              <div class="panel-body">It is your turn</div>
-              <div class="panel-footer">Please choose a category</div>
-            </div>
-          </div>
+    function playRoundWithCategory(category) {
+        $.ajax({
+            type: "GET",
+            url: "/toptrumps/play?" + category,
+            success: function (data) {
+                game = data;
+                console.log(game);
+                startRoundLogic();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus);
+                alert("Error: " + errorThrown);
+            }
+        });
+    }
 
-			<div class="col">
-		<!-- Alert for winning a round -->	
-			<div class="alert alert-success alert-dismissable">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Good job!</strong> You win this round.
-			</div>
-			
-		<!-- Alert for winning a game -->	
-			<div class="alert alert-info alert-dismissable">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Congratulations!</strong> You win the game.
-			</div>
-			
-		<!-- Alert for loosing a round -->	
-			<div class="alert alert-warning alert-dismissable">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				You lost this round.
-			</div>
-			
-		<!-- Alert for loosing a game -->	
-			<div class="alert alert-danger alert-dismissable">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Bad Luck!</strong> You lost the game.
-			</div>
-		</div>	
-		
-			<div class="col-md-7 offset-md-3">
-			<img src="C:/content/images/card.jpeg" alt="Card Background" width="150" height="200">
-			</div>
-		
-		</div>
-			
-			
-			
-				
-		</div>
-		
-		<!-- Bottom of the screen -->
-		
-	<!-- Communal pile -->
-				<div class="row justify-content-end" align="left">
 
-			<div class="col-t-7 offset-md-5">
-			<div class="col">
-			<img src="/content/images/pile.jpeg" alt="Card Background" width="200" height="150">
-			</div>	
-			</div>
-	
-	</div>
-		
-		<script type="text/javascript">
-		
-			// Method that is called on page load
-			function initalize() {
-			
-				// --------------------------------------------------------------------------
-				// You can call other methods you want to run when the page first loads here
-				// --------------------------------------------------------------------------
-				
-				// For example, lets call our sample methods
-				helloJSONList();
-				helloWord("Student");
-				
-			}
-			
-			// -----------------------------------------
-			// Add your other Javascript methods Here
-			// -----------------------------------------
-		
-			// This is a reusable method for creating a CORS request. Do not edit this.
-			function createCORSRequest(method, url) {
-  				var xhr = new XMLHttpRequest();
-  				if ("withCredentials" in xhr) {
+// Illustrates the game components in the game view
+// if the game is started it revalidates the view
+// then it illustrates the information for the round
+// represented in the top left corner
+// along with the cards of each player
+    function drawGame() {
+    // Revalidates the page view
+        if (gameStarted) {
+            emptyElements();
+        }
+        drawRound();
+//        drawHumanPlayer();
+        let playerIndex = 0;
+        for (player in game.players) {
+            if (player) {
 
-    				// Check if the XMLHttpRequest object has a "withCredentials" property.
-    				// "withCredentials" only exists on XMLHTTPRequest2 objects.
-    				xhr.open(method, url, true);
+                drawPlayer(game.players[player], playerIndex);
+                playerIndex++;
+            }
+        }
+        if (game.activePlayer == 0) {
+            drawCategories();
+        }
+        gameStarted = true;
+    }
 
-  				} else if (typeof XDomainRequest != "undefined") {
+// Illustrates the information for each round of the game
+    function drawRound() {
+        let html = '<div class="col-3">';
+        html += '<p>Current round is:' + (game.roundsPlayed + 1) + '</p>';
+        html += '<p>Active player:' + (game.activePlayer + 1) + '</p>'
+        $("#firstRow").append(html);
+    }
 
-    				// Otherwise, check if XDomainRequest.
-    				// XDomainRequest only exists in IE, and is IE's way of making CORS requests.
-    				xhr = new XDomainRequest();
-    				xhr.open(method, url);
+// Creates a player's card
+    function drawPlayer(player, playerIndex) {
+        let html = '<div class="card" style="width: 18rem;">' +
+                '<div class="card-body">' +
+                '<h5 class="card-title">Player: ' + (playerIndex + 1) + '</h5>' +
+                '<p class="card-text">Cards left: ' + player.playerDeck.length + '</p>' +
+                '<p class="card-text">You drew: ' + player.firstCard.description + '</p>' +
+                '</div>' +
+                '<ul class="list-group list-group-flush">';
+        for (card in player.firstCard.catsValues) {
+            html += '<li class="list-group-item">' + game.categoryLabels[card] + ': ' + player.firstCard.catsValues[card] + '</li>';
+        }
 
- 				 } else {
+        $("#firstRow").append(html);
+    }
 
-    				// Otherwise, CORS is not supported by the browser.
-    				xhr = null;
+// Creates a button group for each category, used for the human player to enter a category
+    function drawCategories() {
+        let html = '<div class="col-12">';
 
-  				 }
-  				 return xhr;
-			}
-		
-		</script>
-		
-		<!-- Here are examples of how to call REST API Methods -->
-		<script type="text/javascript">
-		
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloJSONList() {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloJSONList"); // Request type and URL
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
+        html += '<div class="btn-group" role="group">';
 
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
-			
-			// This calls the helloJSONList REST method from TopTrumpsRESTAPI
-			function helloWord(word) {
-			
-				// First create a CORS request, this is the message we are going to send (a get request in this case)
-				var xhr = createCORSRequest('GET', "http://localhost:7777/toptrumps/helloWord?Word="+word); // Request type and URL+parameters
-				
-				// Message is not sent yet, but we can check that the browser supports CORS
-				if (!xhr) {
-  					alert("CORS not supported");
-				}
 
-				// CORS requests are Asynchronous, i.e. we do not wait for a response, instead we define an action
-				// to do when the response arrives 
-				xhr.onload = function(e) {
- 					var responseText = xhr.response; // the text of the response
-					alert(responseText); // lets produce an alert
-				};
-				
-				// We have done everything we need to prepare the CORS request, so send it
-				xhr.send();		
-			}
+        for (label in game.categoryLabels) {
+            html += '<button type="button" class="btn btn-secondary" value="'+ label +'" onclick="playRoundWithCategory(this.value)">' + game.categoryLabels[label] + '</button>';
+        }
 
-		</script>
-		
-		</body>
+        $("#secondRow").append(html);
+    }
+
+
+// Creates a message for informing the user with the category chosen (when AI's turn)
+    function buildAIActionMessage() {
+        let message = "Player: " + (game.activePlayer + 1) + " chose to play the round with category: " + getActivePlayerTopCattegory();
+        return message;
+    }
+
+// Returns an AI's highest category
+    function getActivePlayerTopCattegory() {
+        return game.categoryLabels[game.players[game.activePlayer].bestCategory];
+    }
+
+// Revalidates the page view
+    function emptyElements() {
+        $("#firstRow").empty();
+        $("#secondRow").empty();
+    }
+
+// Maintains user communication throughout each round
+    function startRoundLogic() {
+        if (game != null && game.players[0] != null) {
+            drawGame();
+            if (game.activePlayer != 0) { // if it is an AI's turn
+                let allertMessage = buildAIActionMessage();
+                setTimeout(function () { // delays the response to simulate a thinking process
+                    alert(allertMessage);
+                    playRound();
+                }, 2000);
+            }
+            if (game.roundsPlayed > 0) {
+                if (game.topTrumpsRound.roundWinner == 0) {
+                    alert("You won this round! It is your turn to choose a category!")
+                } else {
+                    alert("Player " + (game.topTrumpsRound.roundWinner + 1) + " won this round!")
+                }
+            }
+        } else {
+            alert ("You lost!");
+        }
+
+    }
+</script>
+</body>
 </html>

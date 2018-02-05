@@ -3,6 +3,7 @@ package online;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.jersey.jackson.JsonProcessingExceptionMapper;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
@@ -66,6 +67,8 @@ public class TopTrumpsOnlineApplication extends Application<TopTrumpsJSONConfigu
         // Registration tells Dropwizard to host a resource
         environment.jersey().register(restAPI);
         environment.jersey().register(gameScreen);
+        environment.jersey().register(new JsonProcessingExceptionMapper(true));
+
 
 
     }

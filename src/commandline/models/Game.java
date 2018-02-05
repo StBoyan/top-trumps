@@ -23,6 +23,7 @@ private Player[] players;
 /* Position of active player in the game  */
 private int activePlayer;
 private int numOfPlayers;
+private boolean draw;
 
     /**
      * Creates a game object. Deck, Round, and Player
@@ -31,9 +32,9 @@ private int numOfPlayers;
      * @param numPlayers number of players
      * @throws FileNotFoundException if deck file is not found
      */
-    public Game(int numPlayers) throws FileNotFoundException{
+    public Game(int numPlayers, String deckFileName) throws FileNotFoundException{
         numOfPlayers = numPlayers;
-        topTrumpsDeck = new Deck();
+        topTrumpsDeck = new Deck(deckFileName);
         topTrumpsRound = new Round(numOfPlayers);
 
         players = new Player[numOfPlayers];
@@ -116,8 +117,12 @@ private int numOfPlayers;
         }
 
         int roundWinner = topTrumpsRound.compareCards(roundCards, category);
-        if (roundWinner != -1)
+        if (roundWinner != -1) {
             activePlayer = roundWinner;
+            draw = false;
+        }
+        else
+            draw = true;
 
         return roundWinner;
     }
@@ -187,6 +192,7 @@ private int numOfPlayers;
                 if (players[i].getPlayerDeck().size() == 0) {
                     players[i] = null;
                     isEliminatedPlayers[i] = true;
+                    numOfPlayers--;
             }
         }
 
@@ -258,5 +264,41 @@ private int numOfPlayers;
         }
 
         return catVals;
+    }
+
+    public Deck getTopTrumpsDeck() {
+        return topTrumpsDeck;
+    }
+
+    public void setTopTrumpsDeck(Deck topTrumpsDeck) {
+        this.topTrumpsDeck = topTrumpsDeck;
+    }
+
+    public Round getTopTrumpsRound() {
+        return topTrumpsRound;
+    }
+
+    public void setTopTrumpsRound(Round topTrumpsRound) {
+        this.topTrumpsRound = topTrumpsRound;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Player[] players) {
+        this.players = players;
+    }
+
+    public void setActivePlayer(int activePlayer) {
+        this.activePlayer = activePlayer;
+    }
+
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public void setNumOfPlayers(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
     }
 }

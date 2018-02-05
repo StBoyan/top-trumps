@@ -24,8 +24,9 @@ public class Deck {
      * attributes by calling createDeck().
      * @throws FileNotFoundException if deck file is not found
      */
-    public Deck() throws FileNotFoundException{
-        createDeck();
+    public Deck(String deckFileName) throws FileNotFoundException{
+        createDeck(deckFileName); // to be removed
+//        gameDeck = new ArrayList<Card>();
     }
 
     /**
@@ -33,8 +34,8 @@ public class Deck {
      * ArrayList of Card object as read from a deck file.
      * @throws FileNotFoundException if deck file is not found
      */
-    private void createDeck() throws FileNotFoundException {
-        final File DECK_FILE = new File("deck.txt");
+    private void createDeck(String deckFileName) throws FileNotFoundException {
+        final File DECK_FILE = new File(deckFileName);
         gameDeck = new ArrayList<Card>();
         FileReader reader = new FileReader(DECK_FILE);
         Scanner in = new Scanner(reader);
