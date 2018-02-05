@@ -11,7 +11,7 @@
 
     <title>Top Trumps</title>
 </head>
-<body>
+<body background="/content/images/background.jpg" id="bg" alt="Background Image">
 <div class="container-fluid">
     <div class="row" id="firstRow"></div>
     <div class="row" id="secondRow"></div>
@@ -114,15 +114,23 @@
 
 // Illustrates the information for each round of the game
     function drawRound() {
-        let html = '<div class="col-3">';
-        html += '<p>Current round is:' + (game.roundsPlayed + 1) + '</p>';
-        html += '<p>Active player:' + (game.activePlayer + 1) + '</p>'
+        let html = '<div class="col-3 text-white">';
+        html += '<p>Current round is:  ' + (game.roundsPlayed + 1) + '</p>';
+        html += '<p>Active player:  ' + (game.activePlayer + 1) + '</p>';
+        html += '<p>Communal Pile:  ' + (game.communalPile.length) + '</p>';
+        if (game.communalPile.length > 0) {
+            html += '<p>Cards in communal pile:</p>';
+            for (card in game.communalPile){
+                html += '<p>' + game.communalPile[card].description + '</p>';
+            }
+        }
+
         $("#firstRow").append(html);
     }
 
 // Creates a player's card
     function drawPlayer(player, playerIndex) {
-        let html = '<div class="card" style="width: 18rem;">' +
+        let html = '<div class="card text-black bg-light m-3" style="width: 11rem;">' +
                 '<div class="card-body">' +
                 '<h5 class="card-title">Player: ' + (playerIndex + 1) + '</h5>' +
                 '<p class="card-text">Cards left: ' + player.playerDeck.length + '</p>' +
@@ -138,7 +146,7 @@
 
 // Creates a button group for each category, used for the human player to enter a category
     function drawCategories() {
-        let html = '<div class="col-12">';
+        let html = '<div class="col-md-15 ">';
 
         html += '<div class="btn-group" role="group">';
 
@@ -189,7 +197,6 @@
         } else {
             alert ("You lost!");
         }
-
     }
 </script>
 </body>
