@@ -130,9 +130,12 @@ public class TopTrumpsRESTAPI {
 	 * **/
     public Game playRoundWithCategory(@QueryParam("category") int category) {
         if (game.getPlayers()[0] == null) { // add is finished
-            throw new NotAllowedException("You lost");
+            throw new NotAllowedException("You lost"); //TODO something needs to happen if we loose other than notification// i.e. the game stops
+
         }
 
+        //TODO the game doesn't know what to do when the game finishes
+        //TODO there appears to be something that's breaking midgame here
         int roundCategory;
         if (game.getActivePlayer() == 0) {
             roundCategory = category;
