@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 public class TopTrumpsRESTAPI {
 
     private Game game;
-    private final int NUMBER_OF_PLAYERS = 5;
+    private int NUMBER_OF_PLAYERS;
     /**
      * A Jackson Object writer. It allows us to turn Java objects
      * into JSON strings easily.
@@ -51,7 +51,10 @@ public class TopTrumpsRESTAPI {
         oWriter = new ObjectMapper().writer();
         try {
             deckFile = conf.getDeckFile();
+            NUMBER_OF_PLAYERS = conf.getNumAIPlayers() + 1;
             game = new Game(NUMBER_OF_PLAYERS, conf.getDeckFile());
+
+
         } catch (FileNotFoundException exception) {
             //TODO
         }
@@ -126,7 +129,7 @@ public class TopTrumpsRESTAPI {
 	 * Accordingly detects the round winner and informs if a player has been eliminated
 	 * **/
     public Game playRoundWithCategory(@QueryParam("category") int category) {
-        if (game.getPlayers()[0] == null) {
+        if (game.getPlayers()[0] == null) { // add is finished
             throw new NotAllowedException("You lost");
         }
 

@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -97,11 +97,10 @@
             emptyElements();
         }
         drawRound();
-//        drawHumanPlayer();
         let playerIndex = 0;
         for (player in game.players) {
-            if (player) {
-
+            if (player != null) {
+ //               drawHumanPlayer(game.players[player]);
                 drawPlayer(game.players[player], playerIndex);
                 playerIndex++;
             }
@@ -114,6 +113,7 @@
 
 // Illustrates the information for each round of the game
     function drawRound() {
+
         let html = '<div class="col-3 text-white">';
         html += '<p>Current round is:  ' + (game.roundsPlayed + 1) + '</p>';
         html += '<p>Active player:  ' + (game.activePlayer + 1) + '</p>';
@@ -130,7 +130,8 @@
 
 // Creates a player's card
     function drawPlayer(player, playerIndex) {
-        let html = '<div class="card text-black bg-light m-3" style="width: 11rem;">' +
+    try {
+        let html = '<div class="card text-black bg-light m-3" style="width: 9rem;">' +
                 '<div class="card-body">' +
                 '<h5 class="card-title">Player: ' + (playerIndex + 1) + '</h5>' +
                 '<p class="card-text">Cards left: ' + player.playerDeck.length + '</p>' +
@@ -142,11 +143,15 @@
         }
 
         $("#firstRow").append(html);
+        }
+        catch (err){
+        }
+
     }
 
 // Creates a button group for each category, used for the human player to enter a category
     function drawCategories() {
-        let html = '<div class="col-md-15 ">';
+        let html = '<div class="col align="middle" ">';
 
         html += '<div class="btn-group" role="group">';
 
@@ -181,9 +186,9 @@
         if (game != null && game.players[0] != null) {
             drawGame();
             if (game.activePlayer != 0) { // if it is an AI's turn
-                let allertMessage = buildAIActionMessage();
+                let alertMessage = buildAIActionMessage();
                 setTimeout(function () { // delays the response to simulate a thinking process
-                    alert(allertMessage);
+                    alert(alertMessage);
                     playRound();
                 }, 2000);
             }
@@ -198,6 +203,20 @@
             alert ("You lost!");
         }
     }
+     function drawHumanPlayer(player){
+     let html = '<div class="card text-black bg-light m-3" style="width: 9rem;">' +
+                     '<div class="card-body">' +
+                     '<h5 class="card-title">Player: 1' + '</h5>' +
+                     '<p class="card-text">Cards left: ' + player.playerDeck.length + '</p>' +
+                     '<p class="card-text">You drew: ' + player.firstCard.description + '</p>' +
+                     '</div>' +
+                     '<ul class="list-group list-group-flush">';
+             for (card in player.firstCard.catsValues) {
+                 html += '<li class="list-group-item">' + game.categoryLabels[card] + ': ' + player.firstCard.catsValues[card] + '</li>';
+             }
+
+             $("#firstRow").append(html);
+     }
 </script>
 </body>
 </html>
