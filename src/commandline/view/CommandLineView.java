@@ -1,6 +1,8 @@
 package commandline.view;
 
 import commandline.models.Card;
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -53,7 +55,7 @@ public class CommandLineView {
      * found.
      */
     public void deckNotFoundError() {
-        System.out.println("Error! deck.txt not found");
+        System.out.println("\nError! deck.txt not found");
         System.out.println("The program will now terminate.");
     }
 
@@ -62,7 +64,7 @@ public class CommandLineView {
      * and of his player number.
      */
     public void gameStarting() {
-        printDelay("Game is about to begin!\n", 1, 350);
+        printDelay("\nGame is about to begin!\n", 1, 350);
         System.out.print("Shuffling deck");
         printDelay(".",3, 350);
         System.out.print("\nDealing cards");
@@ -103,7 +105,13 @@ public class CommandLineView {
         Scanner in = new Scanner(System.in);
         for (;;) {
             System.out.print("\nEnter category number:");
-            int cat = in.nextInt();
+            int cat;
+            /* Checks if user input is correct */
+            try {
+                cat = in.nextInt();
+            } catch (InputMismatchException e) {
+                continue;
+            }
 
             if (cat <= 5 && cat >= 1)
                 return cat - 1;
@@ -155,7 +163,7 @@ public class CommandLineView {
             if (elimPlayers[i]) {
                 String elimLine;
                 if (i == 0)
-                    elimLine = "You have been eliminated. Better luck next time!";
+                    elimLine = "You have been eliminated. Better luck next time!\n";
                 else
                     elimLine = "Player #" + (i + 1) + " has been eliminated.\n";
 
@@ -176,6 +184,46 @@ public class CommandLineView {
             winnerLine = "Player #" + (playerPos + 1) +" wins the game!\n";
 
         printDelay(winnerLine, 1, 500);
+    }
+
+    /**
+     * TODO
+     * @param gamesPlayed
+     */
+    public void printGamesPlayed(int gamesPlayed) {
+        System.out.println(String.format("\nNumber of games played overall: %d", gamesPlayed));
+    }
+
+    /**
+     * TODO
+     * @param compWins
+     */
+    public void printComputerWins(int compWins) {
+        System.out.println(String.format("Number of times computer players have won: %d", compWins));
+    }
+
+    /**
+     * TODO
+     * @param humWins
+     */
+    public void printHumanWins(int humWins) {
+        System.out.println(String.format("Number of times human player has won: %d", humWins));
+    }
+
+    /**
+     * TODO
+     * @param avgDraws
+     */
+    public void printAverageDraws(double avgDraws) {
+        System.out.println(String.format("Average number of draws per game: %.2f", avgDraws));
+    }
+
+    /**
+     * TODO
+     * @param maxRounds
+     */
+    public void printMaxRounds(int maxRounds) {
+        System.out.println(String.format("Largest number of rounds played in a game: %d", maxRounds));
     }
 
     /**

@@ -17,6 +17,7 @@ public class TopTrumpsCLIApplication {
 		/* Denotes how many players will play the game, inclusive
 		 * of human player */
 		final int NUM_OF_PLAYERS = 5;
+		final String DECK_FILE = "deck.txt";
 
 		if (args[0].equalsIgnoreCase("true"))
 			writeGameLogsToFile=true;
@@ -30,7 +31,7 @@ public class TopTrumpsCLIApplication {
 
             if (input == 'G' || input == 'g')
             	try {
-					topTrumpsController.newGame(NUM_OF_PLAYERS, "deck.txt", writeGameLogsToFile);
+					topTrumpsController.newGame(NUM_OF_PLAYERS, DECK_FILE, writeGameLogsToFile);
 				}
 				catch (FileNotFoundException e) {
 				userWantsToQuit=true;

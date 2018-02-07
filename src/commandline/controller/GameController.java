@@ -1,5 +1,6 @@
 package commandline.controller;                                    //TODO change position to index throughout code
 
+import commandline.models.Database;
 import commandline.models.DebugLog;
 import commandline.models.Game;
 import commandline.view.CommandLineView;
@@ -12,6 +13,7 @@ public class GameController {
 private CommandLineView console;
 private Game topTrumpsGame;
 private DebugLog log;
+private Database topTrumpsDatabase;
 private int numOfPlayers;
 
     /**
@@ -20,6 +22,7 @@ private int numOfPlayers;
      */
     public GameController() {
         console = new CommandLineView();
+        topTrumpsDatabase = new Database();
     }
 
     /**
@@ -42,10 +45,10 @@ private int numOfPlayers;
      * @param debug
      * @throws FileNotFoundException
      */
-    public void newGame(int playersNum, String deckFileName, boolean debug) throws FileNotFoundException{
+    public void newGame(int playersNum, String deckFile, boolean debug) throws FileNotFoundException{
         numOfPlayers = playersNum;
         try {
-        topTrumpsGame = new Game(numOfPlayers, deckFileName);
+        topTrumpsGame = new Game(numOfPlayers, deckFile);
         } catch (FileNotFoundException e) {
             console.deckNotFoundError();
             throw new FileNotFoundException();
@@ -63,7 +66,10 @@ private int numOfPlayers;
             playGame();
 
         console.informGameWinner(topTrumpsGame.getActivePlayer());
-        //TODO database calls will go here
+
+        topTrumpsDatabase.connect();
+        topTrumpsDatabase.insertData(topTrumpsGame.getRoundsPlayed(), topTrumpsGame.getDrawStat(), topTrumpsGame.getActivePlayer(), topTrumpsGame.getPlayerWonRoundStat());
+        topTrumpsDatabase.disconnect(); //TODO tidy up a bit
     }
 
     /**
@@ -144,10 +150,16 @@ private int numOfPlayers;
     }
 
     /**
-     * Display game statistic from database
+     * TODO descrp
      */
     public void showStatistics() {
-
+        topTrumpsDatabase.connect();
+        console.printGamesPlayed(topTrumpsDatabase.getGamesPlayed());
+        console.printComputerWins(topTrumpsDatabase.getComputerWins());
+        console.printHumanWins(topTrumpsDatabase.getHumanWins());
+        console.printAverageDraws(topTrumpsDatabase.getAverageDraws());
+        console.printMaxRounds(topTrumpsDatabase.getMaxRounds());
+        topTrumpsDatabase.disconnect();
     }
 
     /**

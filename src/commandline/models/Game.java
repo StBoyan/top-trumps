@@ -2,7 +2,6 @@ package commandline.models;
 
 import java.io.FileNotFoundException;               //TODO CHANGE POS TO INDEX
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class handles a single game of Top Trumps. It maintains
@@ -12,18 +11,17 @@ import java.util.Arrays;
  * in Round, methods to access the human player's top cards and
  * others.
  */
-public class Game {         //TODO METHODS TO ACCESS INFORMATION FOR THE DATABASE AND FOR THE LOG FROM ROUND
+public class Game {
 private Deck topTrumpsDeck;
 private Round topTrumpsRound;
 /* Array containing all players currently in
- * the game in their positions. The human player        //TODO MAYBE MOVE DEBUG LOGIC INTO GAMECONTROLLER AND CREATE METHODS IN GAME THAT HANDLE DEBUG
+ * the game in their positions. The human player
  * is at position 0 and the players never change
  * position. */
 private Player[] players;
 /* Position of active player in the game  */
 private int activePlayer;
 private int numOfPlayers;
-private boolean draw;
 
     /**
      * Creates a game object. Deck, Round, and Player
@@ -32,9 +30,9 @@ private boolean draw;
      * @param numPlayers number of players
      * @throws FileNotFoundException if deck file is not found
      */
-    public Game(int numPlayers, String deckFileName) throws FileNotFoundException{
+    public Game(int numPlayers, String deckFile) throws FileNotFoundException{
         numOfPlayers = numPlayers;
-        topTrumpsDeck = new Deck(deckFileName);
+        topTrumpsDeck = new Deck(deckFile);
         topTrumpsRound = new Round(numOfPlayers);
 
         players = new Player[numOfPlayers];
@@ -117,12 +115,8 @@ private boolean draw;
         }
 
         int roundWinner = topTrumpsRound.compareCards(roundCards, category);
-        if (roundWinner != -1) {
+        if (roundWinner != -1)
             activePlayer = roundWinner;
-            draw = false;
-        }
-        else
-            draw = true;
 
         return roundWinner;
     }
@@ -192,7 +186,6 @@ private boolean draw;
                 if (players[i].getPlayerDeck().size() == 0) {
                     players[i] = null;
                     isEliminatedPlayers[i] = true;
-                    numOfPlayers--;
             }
         }
 
@@ -237,7 +230,11 @@ private boolean draw;
      * @return
      */
     public ArrayList<Card> getPlayersDeckAt(int pos) {
-        return players[pos].getPlayerDeck();
+        try {
+            return players[pos].getPlayerDeck();
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
 
     /**
@@ -264,41 +261,5 @@ private boolean draw;
         }
 
         return catVals;
-    }
-
-    public Deck getTopTrumpsDeck() {
-        return topTrumpsDeck;
-    }
-
-    public void setTopTrumpsDeck(Deck topTrumpsDeck) {
-        this.topTrumpsDeck = topTrumpsDeck;
-    }
-
-    public Round getTopTrumpsRound() {
-        return topTrumpsRound;
-    }
-
-    public void setTopTrumpsRound(Round topTrumpsRound) {
-        this.topTrumpsRound = topTrumpsRound;
-    }
-
-    public Player[] getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(Player[] players) {
-        this.players = players;
-    }
-
-    public void setActivePlayer(int activePlayer) {
-        this.activePlayer = activePlayer;
-    }
-
-    public int getNumOfPlayers() {
-        return numOfPlayers;
-    }
-
-    public void setNumOfPlayers(int numOfPlayers) {
-        this.numOfPlayers = numOfPlayers;
     }
 }

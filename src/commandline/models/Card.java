@@ -68,21 +68,5 @@ public class Card {
 
         return sb.toString();
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int[] getCatsValues() {
-        return catsValues;
-    }
-
-    public void setCatsValues(int[] catsValues) {
-        this.catsValues = catsValues;
-    }
 }
 

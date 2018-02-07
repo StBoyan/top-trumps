@@ -121,10 +121,7 @@ public class Round {
      * @return Card winning card
      */
     public Card getWinningCard() {
-        if (roundCards != null && roundCards.length > 0) {
-            return roundCards[roundWinner];
-        }
-        return null;
+        return roundCards[roundWinner];
     }
 
     /**
@@ -172,31 +169,4 @@ public class Round {
         return drawRounds;
     }
 
-    public void setRoundCards(Card[] roundCards) {
-        this.roundCards = roundCards;
-    }
-
-    public void setCommunalPile(ArrayList<Card> communalPile) {
-        this.communalPile = communalPile;
-    }
-
-    public void setRoundsPlayed(int roundsPlayed) {
-        this.roundsPlayed = roundsPlayed;
-    }
-
-    public int getRoundWinner() {
-        return roundWinner;
-    }
-
-    public void setRoundWinner(int roundWinner) {
-        this.roundWinner = roundWinner;
-    }
-
-    public void setPlayersWonRounds(int[] playersWonRounds) {
-        this.playersWonRounds = playersWonRounds;
-    }
-
-    public void setDrawRounds(int drawRounds) {
-        this.drawRounds = drawRounds;
-    }
 }

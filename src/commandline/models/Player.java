@@ -46,7 +46,7 @@ public class Player {
      * @return Card card on top of deck
      */
     public Card getFirstCard() {
-        return playerDeck.size() > 0 ? playerDeck.get(0) : null;
+        return playerDeck.get(0);
     }
 
     /**
@@ -65,9 +65,5 @@ public class Player {
      */
     public ArrayList<Card> getPlayerDeck() {
         return playerDeck;
-    }
-
-    public void setPlayerDeck(ArrayList<Card> playerDeck) {
-        this.playerDeck = playerDeck;
     }
 }
