@@ -121,7 +121,10 @@ public class Round {
      * @return Card winning card
      */
     public Card getWinningCard() {
-        return roundCards[roundWinner];
+        if (roundCards != null && roundCards.length > 0) {
+            return roundCards[roundWinner];
+        }
+        return null;
     }
 
     /**
@@ -168,5 +171,4 @@ public class Round {
     public int getDrawRounds() {
         return drawRounds;
     }
-
 }

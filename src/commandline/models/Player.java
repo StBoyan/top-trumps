@@ -46,7 +46,7 @@ public class Player {
      * @return Card card on top of deck
      */
     public Card getFirstCard() {
-        return playerDeck.get(0);
+        return playerDeck.size() > 0 ? playerDeck.get(0) : null;
     }
 
     /**

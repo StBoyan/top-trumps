@@ -4,13 +4,21 @@ import commandline.controller.GameController;
 import java.io.FileNotFoundException;
 
 /**
- * TODO generic commnents about the CLI app
+ * Class that handles a game of Top Trumps in the
+ * command line. It has class attributes to modify
+ * the number of players in the game and the name
+ * of the deck file used for the game. It contains
+ * the main application loop in which appropriate
+ * methods are called from the GameController object
+ * to start a game and show previous game statistics.
+ * The CommandLineView object is used to get the user's
+ * input.
  */
 public class TopTrumpsCLIApplication {
 
 	/**
-	 * TODO comment here and throughout method if necessary
-	 * @param args
+	 * Main method for the commandline application.
+	 * @param args boolean denoting whether debug log is activate
 	 */
 	public static void main(String[] args) {
 		boolean writeGameLogsToFile = false;
@@ -22,10 +30,11 @@ public class TopTrumpsCLIApplication {
 
 		if (args[0].equalsIgnoreCase("true"))
 			writeGameLogsToFile=true;
-		
+
 		boolean userWantsToQuit = false;
         GameController topTrumpsController = new GameController();
-        
+
+		/* Core application loop */
 		while (!userWantsToQuit) {
             topTrumpsController.showMenu();
             char input = topTrumpsController.menuInput();

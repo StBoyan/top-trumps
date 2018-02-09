@@ -1,38 +1,39 @@
 package commandline.models;
 
-import java.io.FileNotFoundException;               //TODO CHANGE POS TO INDEX
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class handles a single game of Top Trumps. It maintains
  * a list of the players in the game and the active player at
- * any moment. It has various methods to distribute cards (both     //TODO include in descr it also has methods to access info for db and log
+ * any moment. It has various methods to distribute cards (both
  * at beginning and after a round), methods to access attributes
  * in Round, methods to access the human player's top cards and
- * others.
+ * others. There are also methods to access information needed for
+ * the debug log and the database.
  */
 public class Game {
 private Deck topTrumpsDeck;
 private Round topTrumpsRound;
-/* Array containing all players currently in
- * the game in their positions. The human player
- * is at position 0 and the players never change
- * position. */
+/* Array containing all indexed players currently in
+ * the game. The human player is at index 0 and the
+ * players never change position. */
 private Player[] players;
-/* Position of active player in the game  */
+/* Index of active player in the game  */
 private int activePlayer;
 private int numOfPlayers;
 
     /**
      * Creates a game object. Deck, Round, and Player
      * objects are initialised. First active player is
-     * chosen at random.                                                //TODO change descrp
+     * chosen at random.
      * @param numPlayers number of players
      * @throws FileNotFoundException if deck file is not found
      */
-    public Game(int numPlayers, String deckFile) throws FileNotFoundException{
+    public Game(int numPlayers, String deckFileName) throws FileNotFoundException{
         numOfPlayers = numPlayers;
-        topTrumpsDeck = new Deck(deckFile);
+        topTrumpsDeck = new Deck(deckFileName);
         topTrumpsRound = new Round(numOfPlayers);
 
         players = new Player[numOfPlayers];
@@ -45,9 +46,7 @@ private int numOfPlayers;
 
     /**
      * Shuffles the deck and assigns all game deck
-     * cards to each player's individual deck. If in debug
-     * mode - the shuffled deck and each player's deck are
-     * printed to the log.
+     * cards to each player's individual deck.
      */
     public void dealCards() {
         topTrumpsDeck.shuffleDeck();
@@ -70,7 +69,7 @@ private int numOfPlayers;
     }
 
     /**
-     * Gets the position of the current active player.
+     * Gets the index of the current active player.
      * @return int active player position
      */
     public int getActivePlayer() {
@@ -82,7 +81,7 @@ private int numOfPlayers;
      * @return Card human player's topmost card
      */
     public Card getHumanPlayerCard() {
-        if (players[0] != null)                         //TODO change description
+        if (players[0] != null)
             return players[0].getFirstCard();
         else
             return null;
@@ -99,12 +98,12 @@ private int numOfPlayers;
     /**
      * Draws cards from each player's deck and plays a round
      * with a given category. Changes current active player
-     * if round wasn't a draw. Returns position of winner
+     * if round wasn't a draw. Returns index of winner
      * or -1 if round was a draw.
-     * @param category position of category
-     * @return int position of winner or -1 in case of draw
+     * @param category index of category
+     * @return int index of winner or -1 in case of draw
      */
-    public int playRound(int category) {
+      public int playRound(int category) {
         Card[] roundCards = new Card[numOfPlayers];
 
         for (int i = 0; i < numOfPlayers; i++) {
@@ -137,7 +136,7 @@ private int numOfPlayers;
     public void winnerTakeCards(int winnerPos) {
         ArrayList<Card> cards = topTrumpsRound.takeAllCards();
         for (Card c: cards) {
-            if (c != null)          //TODO comment
+            if (c != null)
                 players[winnerPos].addCard(c);
         }
     }
@@ -181,7 +180,7 @@ private int numOfPlayers;
     public boolean[] removeEliminatedPlayers() {
         boolean[] isEliminatedPlayers = new boolean[numOfPlayers];
 
-        for (int i = 0; i < numOfPlayers; i++) {                      //TODO need new description
+        for (int i = 0; i < numOfPlayers; i++) {
             if (players[i] != null)
                 if (players[i].getPlayerDeck().size() == 0) {
                     players[i] = null;
@@ -193,41 +192,44 @@ private int numOfPlayers;
     }
 
     /**
-     * TODO descr
-     * @return
+     * Returns ArrayList of card objects representing
+     * the communal pile.
+     * @return ArrayList<Card> communal pile
      */
     public ArrayList<Card> getCommunalPile(){
         return topTrumpsRound.getCommunalPile();
     }
 
     /**
-     * TODO desc
-     * @return
+     * Returns number of draw rounds.
+     * @return int draw rounds
      */
     public int getDrawStat() {
         return topTrumpsRound.getDrawRounds();
     }
 
     /**
-     * TODO
-     * @return
+     * Returns stats for rounds won by each player
+     * in an int array.
+     * @return int[] player wins
      */
     public int[] getPlayerWonRoundStat() {
         return topTrumpsRound.getPlayersWonRounds();
     }
 
     /**
-     * TODO
-     * @return
+     * Returns the game deck ArrayList.
+     * @return ArrayList<Card> game deck
      */
     public ArrayList<Card> getGameDeck() {
         return topTrumpsDeck.getGameDeck();
     }
 
     /**
-     * //TODO
-     * @param pos
-     * @return
+     * Returns the player's Deck at a certain index in
+     * an ArrayList.
+     * @param pos index of player
+     * @return ArrayList<Card> player deck
      */
     public ArrayList<Card> getPlayersDeckAt(int pos) {
         try {
@@ -238,8 +240,8 @@ private int numOfPlayers;
     }
 
     /**
-     * TODO
-     * @return
+     * Returns the cards in the current round.
+     * @return Card[] cards in round
      */
     public Card[] getCardsInRound() {
         return topTrumpsRound.getRoundCards();
@@ -254,9 +256,10 @@ private int numOfPlayers;
     }
 
     /**
-     * TODO descr
-     * @param cat
-     * @return
+     * Returns the values of all cards in a round
+     * for a given category index in an array of integers.
+     * @param cat index of category
+     * @return int[] category values
      */
     public int[] getCatValues(int cat) {
         int[] catVals = new int[numOfPlayers];

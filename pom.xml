@@ -5,22 +5,28 @@
   <version>1.0</version>
   <name>Top Trumps Application Project</name>
   <description>This is the template java project for the Top Trumps Assessed Excercise for IT Software Development at Glasgow 2018. </description>
-
+  
   <!-- Specify which version of Dropwizard we are going to use for histing the REST API and Website -->
   <properties>
     <dropwizard.version>1.2.2</dropwizard.version>
   </properties>
-
+  
   <!-- These are the other software libruaries developed by third parties that we need -->
   <dependencies>
-
+  
   	<!-- Dropwizard is a bundle of REST API hosting tools -->
     <dependency>
         <groupId>io.dropwizard</groupId>
         <artifactId>dropwizard-core</artifactId>
         <version>${dropwizard.version}</version>
     </dependency>
-
+    
+  					  	<!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
+						<dependency>
+    					<groupId>postgresql</groupId>
+   						 <artifactId>postgresql</artifactId>
+    					<version>9.1-901-1.jdbc4</version>
+						</dependency>
     <!-- When hosting a website with dropwizard, we need to specify a language for writing views,
          In this case, we are using freemarker https://freemarker.apache.org/ -->
 	<dependency>
@@ -35,22 +41,28 @@
 		  <artifactId>dropwizard-assets</artifactId>
 		  <version>1.2.2</version>
 	  </dependency>
-
+	
 	<!-- One of the requirements is to save results in a (mysql) database, so lets import the
 	     database connection driver libruary for that as well -->
 	<dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>42.2.1</version>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    	<version>5.1.38</version>
 	</dependency>
-
+    <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.3.1</version>
+</dependency>
+    
   </dependencies>
-
+  
   <build>
-
+  
   	<!-- Where do our Java sources come from? -->
     <sourceDirectory>src</sourceDirectory>
-
+    
     <!-- Plugin Management for users working with the Eclipse IDE. org.eclipse.m2e:lifecycle-mapping
          instructs eclipse how to build the maven project -->
     <pluginManagement>
@@ -140,10 +152,10 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
+    
     <!-- Plugins, these do things like compiling the java sources and packaging into a jar -->
     <plugins>
-
+    
       <!-- Compiles your java sources -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -153,7 +165,7 @@
           <target/>
         </configuration>
       </plugin>
-
+      
       <!-- Packages those sources in a Jar file -->
       <plugin>
             <groupId>org.apache.maven.plugins</groupId>

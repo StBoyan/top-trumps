@@ -1,4 +1,4 @@
-package commandline.controller;                                    //TODO change position to index throughout code
+package commandline.controller;
 
 import commandline.models.Database;
 import commandline.models.DebugLog;
@@ -7,7 +7,9 @@ import commandline.view.CommandLineView;
 import java.io.FileNotFoundException;
 
 /**
- * TODO Class description
+ * Class to model the controller for the command line
+ * version of the game. It creates all the objects needed
+ * to play the game and contains the core application logic.
  */
 public class GameController {
 private CommandLineView console;
@@ -41,8 +43,10 @@ private int numOfPlayers;
     }
 
     /**
-     * TODO Comment method
-     * @param debug
+     * Starts a new game of Top Trumps in the command line.
+     * @param playersNum number of players
+     * @param deckFile name of deck file
+     * @param debug whether debug mode is on
      * @throws FileNotFoundException
      */
     public void newGame(int playersNum, String deckFile, boolean debug) throws FileNotFoundException{
@@ -57,33 +61,43 @@ private int numOfPlayers;
         console.setDeckCategoryLabels(topTrumpsGame.getCategoryLabels());
         console.gameStarting();
 
+        /* Starts game in debug mode */
         if (debug) {
             log = new DebugLog();
             log.setCategoryLabels(topTrumpsGame.getCategoryLabels());
             playGameDebug();
         }
+        /* Starts game in normal mode */
         else
             playGame();
 
+        /* Informs the user of the game winner */
         console.informGameWinner(topTrumpsGame.getActivePlayer());
 
+        /* Connects to the database and inserts data after a
+         * game has finished and then disconnect */
         topTrumpsDatabase.connect();
         topTrumpsDatabase.insertData(topTrumpsGame.getRoundsPlayed(), topTrumpsGame.getDrawStat(), topTrumpsGame.getActivePlayer(), topTrumpsGame.getPlayerWonRoundStat());
-        topTrumpsDatabase.disconnect(); //TODO tidy up a bit
+        topTrumpsDatabase.disconnect();
     }
 
     /**
-     * TODO description + in-method comments
+     * Helper method which contains the game logic in a
+     * regular game (no debug).
      */
     private void playGame() {
         topTrumpsGame.dealCards();
 
+            /* Core game loop */
             while(!topTrumpsGame.isFinished()) {
                 console.informRound(topTrumpsGame.getRoundsPlayed());
 
+                /* If human player is in game informs him of his card */
                 if (topTrumpsGame.getHumanPlayerCard() != null)
                     console.informPlayerCard(topTrumpsGame.getHumanPlayerCard());
 
+                /* Checks who is the active player and determines
+                 * category to be played */
                 int category;
                 int actPlayer = topTrumpsGame.getActivePlayer();
                 if (actPlayer == 0)
@@ -95,6 +109,7 @@ private int numOfPlayers;
 
                 int rndWinner = topTrumpsGame.playRound(category);
 
+                /* Informs the user of the result of the round */
                 if (rndWinner == -1)
                     console.informRoundDraw(topTrumpsGame.getCommunalPile().size());
                 else {
@@ -102,12 +117,15 @@ private int numOfPlayers;
                     topTrumpsGame.winnerTakeCards(rndWinner);
                 }
 
+                /* Eliminates the players with no cards left in their
+                 * deck and informs the user */
                 console.informPlayerEliminations(topTrumpsGame.removeEliminatedPlayers());
             }
     }
 
     /**
-     * TODO descrp + in-method comments
+     * Helper method which contains the game logic
+     * in a game in debug mode.
      */
     private void playGameDebug() {
         log.printDeck(topTrumpsGame.getGameDeck(), - 1);
@@ -116,12 +134,16 @@ private int numOfPlayers;
         log.printDeck(topTrumpsGame.getGameDeck(), -2);
         logPlayerDecks();
 
+        /* Core game loop */
         while(!topTrumpsGame.isFinished()) {
             console.informRound(topTrumpsGame.getRoundsPlayed());
 
+            /* If human player is in game informs him of his card */
             if (topTrumpsGame.getHumanPlayerCard() != null)
                 console.informPlayerCard(topTrumpsGame.getHumanPlayerCard());
 
+            /* Checks who is the active player and determines
+             * category to be played */
             int category;
             int actPlayer = topTrumpsGame.getActivePlayer();
             if (actPlayer == 0)
@@ -136,6 +158,7 @@ private int numOfPlayers;
             log.printCardsInPlay(topTrumpsGame.getCardsInRound());
             log.printCatValues(category, topTrumpsGame.getCatValues(category));
 
+            /* Informs the user of the result of the round */
             if (rndWinner == -1)
                 console.informRoundDraw(topTrumpsGame.getCommunalPile().size());
             else {
@@ -143,6 +166,8 @@ private int numOfPlayers;
                 topTrumpsGame.winnerTakeCards(rndWinner);
             }
 
+            /* Eliminates the players with no cards left in their
+             * deck and informs the user */
             console.informPlayerEliminations(topTrumpsGame.removeEliminatedPlayers());
             logPlayerDecks();
         }
@@ -150,7 +175,8 @@ private int numOfPlayers;
     }
 
     /**
-     * TODO descrp
+     * Takes information from the database about previous games
+     * and displays it to the user.
      */
     public void showStatistics() {
         topTrumpsDatabase.connect();
@@ -163,7 +189,8 @@ private int numOfPlayers;
     }
 
     /**
-     * TODO descrp
+     * Helper method to print each player's deck to
+     * the log file.
      */
     private void logPlayerDecks() {
         for (int i = 0; i < numOfPlayers; i++) {

@@ -11,10 +11,18 @@ import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import commandline.models.Game;
+import commandline.models.Database;
 import online.configuration.TopTrumpsJSONConfiguration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.Gson;
+
+
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
 @Produces(MediaType.APPLICATION_JSON) // This resource returns JSON content
@@ -81,6 +89,7 @@ public class TopTrumpsRESTAPI {
         listOfWords.add("Hello");
         listOfWords.add("World!");
 
+
         // We can turn arbatory Java objects directly into JSON strings using
         // Jackson seralization, assuming that the Java objects are not too complex.
         String listAsJSONString = oWriter.writeValueAsString(listOfWords);
@@ -105,9 +114,9 @@ public class TopTrumpsRESTAPI {
 
 	/** Creates a new game **/
     public Game startGame() {
-//        if (game.getTopTrumpsRound().getRoundsPlayed() == 0) {            //TODO THIS IS COMMENTED OUT BECAUSE IT WON'T COMPILE. NEEDS PERMANENT SOLUTION
-//            game.dealCards();
-//        }
+        if (game.getRoundsPlayed() == 0) {
+            game.dealCards();
+        }
         return game;
     }
 
@@ -129,10 +138,10 @@ public class TopTrumpsRESTAPI {
 	 * Accordingly detects the round winner and informs if a player has been eliminated
 	 * **/
     public Game playRoundWithCategory(@QueryParam("category") int category) {
-//        if (game.getPlayers()[0] == null) { // add is finished
-//            throw new NotAllowedException("You lost"); //TODO something needs to happen if we loose other than notification// i.e. the game stops
-//
-//        }                                                 //TODO THIS IS COMMENTED OUT BECAUSE IT WON'T COMPILE. NEEDS PERMANENT SOLUTION
+        if (game.getPlayers()[0] == null) { // add is finished
+            throw new NotAllowedException("You lost"); //TODO something needs to happen if we loose other than notification// i.e. the game stops
+
+        }
 
         //TODO the game doesn't know what to do when the game finishes
         //TODO there appears to be something that's breaking midgame here
@@ -167,6 +176,27 @@ public class TopTrumpsRESTAPI {
     public String categoryValues() throws JsonProcessingException {
         String categories = oWriter.writeValueAsString(game.getHumanPlayerCard());
         return categories;
+    }
+    @GET
+    @Path("/database")
+	/** Converts the array of categories into a JSON string **/
+    public String databaseValues() throws JsonProcessingException {
+    	Database a = new Database();
+    	ArrayList<Integer> Values = new ArrayList<Integer>();
+		a.connect();
+		Map<String, String> gameStats = new HashMap<String , String>();
+        gameStats.put("gamesPlayed", ""+a.getGamesPlayed());
+        gameStats.put("HumanWins", ""+a.getHumanWins() );
+        gameStats.put("ComputerWins", ""+a.getComputerWins());
+        gameStats.put("AverageDraws", ""+a.getAverageDraws());
+        gameStats.put("MaxRounds", ""+a.getMaxRounds());
+        a.disconnect();
+
+        // Convert a Map into JSON string.
+        Gson gson = new Gson();
+        String json = gson.toJson(gameStats);
+
+        return json;
     }
 
 

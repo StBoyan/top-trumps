@@ -21,15 +21,15 @@ public class Database {
      * Establishes connection to the database.
      */
     public void connect() {
-//        String dbName = "m_17_2353687g";          //TODO remove local db information for submission
-//        String username = "m_17_2353687g";
-//        String password = "2353687g";
+       // String dbName = "m_17_2353687g";          //TODO remove local db information for submission
+       // String username = "m_17_2353687g";
+       // String password = "2353687g";
         String dbName = "postgres";
         String username = "postgres";
         String password = "postgres";
 
         try {
-//            connection = DriverManager.getConnection("jdbc:postgresql://yacata.dcs.gla.ac.uk:5432/" + dbName, username, password);
+           // connection = DriverManager.getConnection("jdbc:postgresql://yacata.dcs.gla.ac.uk:5432/" + dbName, username, password);
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + dbName, username, password);
         } catch (SQLException e) {
             System.err.println("Connection to database failed!");

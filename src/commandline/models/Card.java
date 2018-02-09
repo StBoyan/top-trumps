@@ -85,4 +85,3 @@ public class Card {
         return sb.toString();
     }
 }
-

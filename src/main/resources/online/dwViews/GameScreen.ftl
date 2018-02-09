@@ -15,6 +15,7 @@
 <div class="container-fluid">
     <div class="row" id="firstRow"></div>
     <div class="row" id="secondRow"></div>
+    <div class="row" id="thirdRow"></div>
 </div>
 
 <!-- Optional JavaScript -->
@@ -26,6 +27,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+
 <script>
     var game;
     var gameStarted;
@@ -97,24 +100,30 @@
             emptyElements();
         }
         drawRound();
-        let playerIndex = 0;
-        for (player in game.players) {
-            if (player != null) {
- //               drawHumanPlayer(game.players[player]);
-                drawPlayer(game.players[player], playerIndex);
-                playerIndex++;
-            }
-        }
+
+
+        //if (game.activePlayer == 0){
+        //        displayHumanTurn();
+        //    }
+        //    else{
+        //        displayAITurn();
+        //    }
+
+        //drawMenuBar();
+        displayAITurn();
+
         if (game.activePlayer == 0) {
             drawCategories();
         }
+
         gameStarted = true;
     }
+
 
 // Illustrates the information for each round of the game
     function drawRound() {
 
-        let html = '<div class="col-3 text-white">';
+        let html = '<div class="col-2 text-white">';
         html += '<p>Current round is:  ' + (game.roundsPlayed + 1) + '</p>';
         html += '<p>Active player:  ' + (game.activePlayer + 1) + '</p>';
         html += '<p>Communal Pile:  ' + (game.communalPile.length) + '</p>';
@@ -125,34 +134,31 @@
             }
         }
 
-        $("#firstRow").append(html);
+        $("#secondRow").append(html);
     }
 
 // Creates a player's card
     function drawPlayer(player, playerIndex) {
-    try {
         let html = '<div class="card text-black bg-light m-3" style="width: 9rem;">' +
                 '<div class="card-body">' +
                 '<h5 class="card-title">Player: ' + (playerIndex + 1) + '</h5>' +
-                '<p class="card-text">Cards left: ' + player.playerDeck.length + '</p>' +
-                '<p class="card-text">You drew: ' + player.firstCard.description + '</p>' +
-                '</div>' +
-                '<ul class="list-group list-group-flush">';
-        for (card in player.firstCard.catsValues) {
-            html += '<li class="list-group-item">' + game.categoryLabels[card] + ': ' + player.firstCard.catsValues[card] + '</li>';
+                '<p class="card-text">Cards left: ' + player.playerDeck.length + '</p>';
+        if (game.activePlayer != 0) {
+             html += '<p class="card-text"> Current card: ' + player.firstCard.description + '</p>' +
+                    '</div>' +
+                    '<ul class="list-group list-group-flush">';
+            for (card in player.firstCard.catsValues) {
+                html += '<li class="list-group-item">' + game.categoryLabels[card] + ': ' + player.firstCard.catsValues[card] + '</li>';
+            }
         }
 
-        $("#firstRow").append(html);
-        }
-        catch (err){
-        }
-
+        $("#secondRow").append(html);
     }
 
 // Creates a button group for each category, used for the human player to enter a category
     function drawCategories() {
-        let html = '<div class="col align="middle" ">';
-
+        let html = '<div class="col">';
+        html += '<div class="d-flex justify-content-center">';
         html += '<div class="btn-group" role="group">';
 
 
@@ -160,7 +166,7 @@
             html += '<button type="button" class="btn btn-secondary" value="'+ label +'" onclick="playRoundWithCategory(this.value)">' + game.categoryLabels[label] + '</button>';
         }
 
-        $("#secondRow").append(html);
+        $("#thirdRow").append(html);
     }
 
 
@@ -179,34 +185,80 @@
     function emptyElements() {
         $("#firstRow").empty();
         $("#secondRow").empty();
+        $("#thirdRow").empty();
     }
+
 
 // Maintains user communication throughout each round
     function startRoundLogic() {
         if (game != null && game.players[0] != null) {
-            drawGame();
-            if (game.activePlayer != 0) { // if it is an AI's turn
-                let alertMessage = buildAIActionMessage();
-                setTimeout(function () { // delays the response to simulate a thinking process
-                    alert(alertMessage);
-                    playRound();
-                }, 2000);
-            }
-            if (game.roundsPlayed > 0) {
-                if (game.topTrumpsRound.roundWinner == 0) {
-                    alert("You won this round! It is your turn to choose a category!")
-                } else {
-                    alert("Player " + (game.topTrumpsRound.roundWinner + 1) + " won this round!")
+            if (game.numOfPlayers == 1) {
+                alert("You won!")
+                drawGameEnd();
+            } else {
+                drawGame();
+                if (game.activePlayer != 0) { // if it is an AI's turn
+                    let alertMessage = buildAIActionMessage();
+                    setTimeout(function () { // delays the response to simulate a thinking process
+                        alert(alertMessage);
+                        playRound();
+                    }, 2000);
+                }
+                if (game.roundsPlayed > 0) {
+                    if (game.communalPile.length != 0){
+                        alert("There is a draw")
+                    }
+                    else if (game.topTrumpsRound.roundWinner == 0) {
+                        alert("You won this round! It is your turn to choose a category!")
+                    } else {
+                        alert("Player " + (game.topTrumpsRound.roundWinner + 1) + " won this round!")
+                    }
                 }
             }
         } else {
             alert ("You lost!");
+            if (gameStarted) {
+                 emptyElements();
+            }
+            drawGameEnd();
         }
+
     }
+     function drawGameEnd() {
+        let html = "";
+        if (game.players[0] == null) {
+            html += "<p> Sorry that you lost.</p>";
+        } else {
+            html += "<p>Congratulations! You won the hardest game ever!</p>";
+        }
+
+        html += "<p>If you want to play again, just refresh your screen.</p>";
+        $("#secondRow").append(html);
+     }
+
+    // function drawMenuBar(){
+    // let html = '<nav class="navbar navbar-expand-sm bg-info navbar-dark">
+    //                    <ul class="navbar-nav">
+    //                      <li class="nav-item active">
+    //                        <a class="nav-link" href="http://localhost:7777/toptrumps/">Home</a>
+    //                      </li>
+    //                      <li class="nav-item">
+    //                        <a class="nav-link" href="http://localhost:7777/toptrumps/game">Play New Game</a>
+    //                      </li>
+    //                      <li class="nav-item">
+    //                        <a class="nav-link" href="http://localhost:7777/toptrumps/stats">View Statistics</a>
+    //                      </li>
+    //                    </ul>
+    //                  </nav>'
+
+    // $("#firstRow").append(html);
+    // }
+
+
      function drawHumanPlayer(player){
-     let html = '<div class="card text-black bg-light m-3" style="width: 9rem;">' +
+     let html = '<div class="card text-black bg-primary m-3" style="width: 9rem;">' +
                      '<div class="card-body">' +
-                     '<h5 class="card-title">Player: 1' + '</h5>' +
+                     '<h5 class="card-title">YOU' + '</h5>' +
                      '<p class="card-text">Cards left: ' + player.playerDeck.length + '</p>' +
                      '<p class="card-text">You drew: ' + player.firstCard.description + '</p>' +
                      '</div>' +
@@ -215,8 +267,45 @@
                  html += '<li class="list-group-item">' + game.categoryLabels[card] + ': ' + player.firstCard.catsValues[card] + '</li>';
              }
 
-             $("#firstRow").append(html);
+             $("#secondRow").append(html);
      }
+
+     function drawAIClosedCards(){
+     let html = '<div class="col-2"> <img src="/content/images/card.jpeg" class="img-rounded closed-card" alt="Opponents card" width=100% height=auto/></div>';
+
+             $("#secondRow").append(html);
+     }
+
+
+     function displayHumanTurn(){
+         let playerIndex = 0;
+         for (player in game.players) {
+             if (player != null) {
+                 if (playerIndex == 0){
+                     drawHumanPlayer(game.humanPlayerCard);
+                     drawCategories();
+                  }
+                  else{
+                     drawAIClosedCards(game.players[player], playerIndex);
+                  }
+             playerIndex++;
+             }
+         }
+      }
+
+     function displayAITurn (){
+        let playerIndex = 0;
+            for (player in game.players) {
+                if (game.players[player] != null) {
+                    if (playerIndex == 0) {
+                        drawHumanPlayer(game.players[player]);
+                    } else
+                        drawPlayer(game.players[player], playerIndex);
+                }
+                playerIndex++;
+            }
+     }
+
 </script>
 </body>
 </html>

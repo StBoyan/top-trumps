@@ -18,17 +18,15 @@ import java.util.Scanner;
 public class Deck {
     private ArrayList<Card> gameDeck;
     private String[] catLabels;
-    private String deckFileName;
 
     /**
      * Creates a Deck object and initialises the class
      * attributes by calling createDeck().
      * @throws FileNotFoundException if deck file is not found
      */
-    public Deck(String deckFile) throws FileNotFoundException{
-        deckFileName = deckFile;
-        createDeck();
-
+    public Deck(String deckFileName) throws FileNotFoundException{
+        createDeck(deckFileName); // to be removed
+//        gameDeck = new ArrayList<Card>();
     }
 
     /**
@@ -36,7 +34,7 @@ public class Deck {
      * ArrayList of Card object as read from a deck file.
      * @throws FileNotFoundException if deck file is not found
      */
-    private void createDeck() throws FileNotFoundException {
+    private void createDeck(String deckFileName) throws FileNotFoundException {
         final File DECK_FILE = new File(deckFileName);
         gameDeck = new ArrayList<Card>();
         FileReader reader = new FileReader(DECK_FILE);
