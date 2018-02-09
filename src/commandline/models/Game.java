@@ -246,6 +246,14 @@ private int numOfPlayers;
     }
 
     /**
+     * Returns the array of player objects
+     * @return Player[] players
+     */
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    /**
      * TODO descr
      * @param cat
      * @return

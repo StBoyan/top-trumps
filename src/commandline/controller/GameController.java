@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 
 /**
  * TODO Class description
- */                                 //TODO fix bug where last round ends in a draw and cards are not distributed properly if possible
+ */
 public class GameController {
 private CommandLineView console;
 private Game topTrumpsGame;

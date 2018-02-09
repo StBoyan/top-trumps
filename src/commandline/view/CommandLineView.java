@@ -110,9 +110,9 @@ public class CommandLineView {
             System.out.print(" (" + (i+1) + ") " + deckAttributes[i]);
         }
 
-        Scanner in = new Scanner(System.in);
         for (;;) {
             System.out.print("\nEnter category number:");
+            Scanner in = new Scanner(System.in);
             int cat;
 
             /* Checks if user input is correct */

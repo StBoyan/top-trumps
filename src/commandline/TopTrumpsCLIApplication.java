@@ -17,6 +17,7 @@ public class TopTrumpsCLIApplication {
 		/* Denotes how many players will play the game, inclusive
 		 * of human player */
 		final int NUM_OF_PLAYERS = 5;
+		/* Name of deck file to be used */
 		final String DECK_FILE = "deck.txt";
 
 		if (args[0].equalsIgnoreCase("true"))

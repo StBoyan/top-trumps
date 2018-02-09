@@ -52,6 +52,22 @@ public class Card {
     }
 
     /**
+     * Returns the description of the card Object.
+     * @return String description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Returns the category values array.
+     * @return int[] category values
+     */
+    public int[] getCatsValues() {
+        return catsValues;
+    }
+
+    /**
      * Returns a string representation of a Card object. That is -
      * its description followed by the category values, all of which
      * are delimited by whitespace.
