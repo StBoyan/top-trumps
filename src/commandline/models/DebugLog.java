@@ -153,8 +153,6 @@ public class DebugLog {
         else
             winLog.append("Player #").append(winPos+1).append(" (AI Player)");
 
-        printSeparator(winLog);
-
         writeLog(winLog.toString());
     }
 

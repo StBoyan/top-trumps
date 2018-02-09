@@ -6,13 +6,20 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * TODO Class description
+ * Class to model a view that handles the interaction with the
+ * user of the application. It has methods to display a game menu and
+ * take user input, and display game statistics data. It also informs
+ * the user about various events (e.g. round winner, game winner etc.)
+ * and take user input when needed. All interactions during a game employ
+ * Thread.sleep so as to give time for the human user to read the outcome
+ * of the rounds being played.
  */
 public class CommandLineView {
+    /* Stores the attributes (category labels) for each card */
     private String[] deckAttributes;
 
     /**
-     *  Displays the initial game menu.
+     *  Displays the game menu.
      */
     public void optionsMenu() {
         System.out.println("\nGame Menu:");
@@ -22,7 +29,7 @@ public class CommandLineView {
     }
 
     /**
-     * Get menu selection input from command line
+     * Gets menu selection input from the command line.
      * G - new game
      * S - statistics
      * Q - quit
@@ -51,7 +58,7 @@ public class CommandLineView {
     }
 
     /**
-     * Informs the user that the deck has not been
+     * Informs the user when the deck has not been
      * found.
      */
     public void deckNotFoundError() {
@@ -74,7 +81,7 @@ public class CommandLineView {
     }
 
     /**
-     * Informs the user of current the round number.
+     * Informs the user of the current round number.
      * @param rnd rounds played
      */
     public void informRound(int rnd) {
@@ -93,8 +100,9 @@ public class CommandLineView {
     }
 
     /**
-     * TODO descr and in method
-     * @return
+     * Informs the user that it's his turn to pick
+     * and gets the choice of category.
+     * @return int index of the category chosen by the user
      */
     public int getUserCat() {
         printDelay("Your turn to pick a category\n", 1, 500);
@@ -106,6 +114,7 @@ public class CommandLineView {
         for (;;) {
             System.out.print("\nEnter category number:");
             int cat;
+
             /* Checks if user input is correct */
             try {
                 cat = in.nextInt();
@@ -119,9 +128,10 @@ public class CommandLineView {
     }
 
     /**
-     * TODO description MAKE SURE TO SAY INDEX in comment
-     * @param actPlayer
-     * @param catPos
+     * Informs the user about the category chosen by one of the
+     * AI players.
+     * @param actPlayer active player (AI)
+     * @param catPos index of the position chosen
      */
     public void informCatChosen(int actPlayer, int catPos) {
         String catLine = String.format("Player #%d picks %s (%d).\n", (actPlayer+1), deckAttributes[catPos], catPos + 1);
@@ -129,9 +139,10 @@ public class CommandLineView {
     }
 
     /**
-     * TODO description
-     * @param winnerPos
-     * @param c
+     * Informs the user about the outcome of the round in case of
+     * a win.
+     * @param winnerPos index of the player who won
+     * @param c Card object of the winning card
      */
     public void informRoundWin(int winnerPos, Card c) {
         String resultLine;
@@ -145,8 +156,9 @@ public class CommandLineView {
     }
 
     /**
-     * TODO Description
-     * @param commPile
+     * Informs the user about the outcome of the round in case of
+     * a draw.
+     * @param commPile number of cards in the communal pile
      */
     public void informRoundDraw(int commPile) {
         String resultLine = "This round is a draw. There are now " + commPile + " cards in the communal pile.\n";
@@ -155,8 +167,11 @@ public class CommandLineView {
     }
 
     /**
-     * TODO descrp in method too
-     * @param elimPlayers
+     * Informs the user about players eliminated in a particular
+     * round.
+     * @param elimPlayers boolean array matching the players indices;
+     *                    index with true means player has been eliminated
+     *                    at the current round
      */
     public void informPlayerEliminations(boolean[] elimPlayers) {
         for (int i = 0; i < elimPlayers.length; i++) {
@@ -173,8 +188,8 @@ public class CommandLineView {
     }
 
     /**
-     * TODO comment
-     * @param playerPos
+     * Informs the user of the winner of the game.
+     * @param playerPos index of winning player
      */
     public void informGameWinner(int playerPos) {
         String winnerLine;
@@ -187,40 +202,43 @@ public class CommandLineView {
     }
 
     /**
-     * TODO
-     * @param gamesPlayed
+     * Prints the overall number of games played.
+     * @param gamesPlayed int number of games played
      */
     public void printGamesPlayed(int gamesPlayed) {
         System.out.println(String.format("\nNumber of games played overall: %d", gamesPlayed));
     }
 
     /**
-     * TODO
-     * @param compWins
+     * Prints the number of times computer players have
+     * won.
+     * @param compWins number of times computer players won
      */
     public void printComputerWins(int compWins) {
         System.out.println(String.format("Number of times computer players have won: %d", compWins));
     }
 
     /**
-     * TODO
-     * @param humWins
+     * Prints the number of times the human player has won.
+     * @param humWins number of times human player won
      */
     public void printHumanWins(int humWins) {
         System.out.println(String.format("Number of times human player has won: %d", humWins));
     }
 
     /**
-     * TODO
-     * @param avgDraws
+     * Prints the average number of draws per game, formatted
+     * to 2 places after the decimal point.
+     * @param avgDraws average number of draws
      */
     public void printAverageDraws(double avgDraws) {
         System.out.println(String.format("Average number of draws per game: %.2f", avgDraws));
     }
 
     /**
-     * TODO
-     * @param maxRounds
+     * Prints the largest number of rounds played in a single
+     * game.
+     * @param maxRounds largest number of rounds
      */
     public void printMaxRounds(int maxRounds) {
         System.out.println(String.format("Largest number of rounds played in a game: %d", maxRounds));

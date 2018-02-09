@@ -21,7 +21,7 @@ public class Database {
      * Establishes connection to the database.
      */
     public void connect() {
-//        String dbName = "m_17_2353687g";
+//        String dbName = "m_17_2353687g";          //TODO remove local db information for submission
 //        String username = "m_17_2353687g";
 //        String password = "2353687g";
         String dbName = "postgres";
@@ -62,7 +62,7 @@ public class Database {
      * @param rndWins rounds won by each player
      */
     public void insertData(int totalRounds, int draws, int winner, int[] rndWins) {
-        Statement stmtId = null;
+        Statement stmtId;
         String queryId = "select max(game_id) as max from toptrumps.game";
 
         /* Retrieves the next game ID to be used */
@@ -79,9 +79,14 @@ public class Database {
             pstmt.executeUpdate();
 
             /* Updates player statistics table */
-            String query3 = "INSERT INTO toptrumps.Results VALUES (" + newGame + "," + (winner + 1) + "," + rndWins[0] + ","
-                    + rndWins[1] + "," + rndWins[2] + "," + rndWins[3] + "," + rndWins[4] + ")";
-            PreparedStatement pstmt2 = connection.prepareStatement(query3);                     //TODO MAKE IT WORK WITH LESS THAN 5 PEOPLE
+            String query3 = "INSERT INTO toptrumps.Results VALUES (" + newGame + "," + (winner + 1);
+
+            for (int i = 0; i < rndWins.length; i++) {
+                query3 += "," + rndWins[i];
+            }
+            query3 += ")";
+
+            PreparedStatement pstmt2 = connection.prepareStatement(query3);
             pstmt2.executeUpdate();
 
         } catch (SQLException e) {
@@ -95,7 +100,7 @@ public class Database {
      * @return int number of games played
      */
     public int getGamesPlayed() {
-        Statement stmt = null;
+        Statement stmt;
         String query = "select count(game_id) as games_played from toptrumps.results";
 
         int gameCount = 0;
@@ -118,7 +123,7 @@ public class Database {
      * @return int number of computer wins
      */
     public int getComputerWins() {
-        Statement stmt = null;
+        Statement stmt;
         String query = "select count(game_winner) as computer_wins from toptrumps.results  inner join toptrumps.players ON results.game_winner = players.player_id Where type = 'computer'";
 
         int computerWins = 0;
@@ -137,11 +142,11 @@ public class Database {
 
     /**
      * Retrieves the number of times the human player has won from
-     * the database..
+     * the database.
      * @return int number of human wins
      */
     public int getHumanWins() {
-        Statement stmt = null;
+        Statement stmt;
         String query = "select count(game_winner) as Human_wins from toptrumps.results  inner join toptrumps.players ON results.game_winner = players.player_id Where type = 'human'";
 
         int humanWins = 0;
@@ -164,7 +169,7 @@ public class Database {
      * @return double average number of draws
      */
     public double getAverageDraws() {
-        Statement stmt = null;
+        Statement stmt;
         String query = "SELECT\r\n" + " to_char(\r\n" + " AVG (draws),\r\n" + " '99999999999999999D99'\r\n"
                 + " ) AS average_draws\r\n" + "FROM\r\n" + " toptrumps.game;";
 
@@ -188,7 +193,7 @@ public class Database {
      * @return int max number of rounds
      */
     public int getMaxRounds() {
-        Statement stmt = null;
+        Statement stmt;
         String query = "select max(rounds) as max_rounds from toptrumps.game ";
 
         int maxRounds = 0;
