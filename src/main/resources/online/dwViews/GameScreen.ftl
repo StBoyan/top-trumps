@@ -98,18 +98,17 @@
 // represented in the top left corner
 // along with the cards of each player
     function drawGame() {
-    // Revalidates the page view
+    // Re-validates the page view
         if (gameStarted) {
             emptyElements();
         }
         drawRound();
-        displayAITurn();
-
-        if (game.activePlayer == 0) {
-            drawCategories();
+        if (game.activePlayer != 0) {
+                 displayAITurn();
+        } else {
+               displayHumanTurn();
         }
-
-        gameStarted = true;
+         gameStarted = true;
     }
 
 
@@ -132,7 +131,7 @@
 
 // Creates a player's card
     function drawPlayer(player, playerIndex) {
-        let html = '<div class="card text-black bg-light m-3" style="width: 9rem;">' +
+        let html = '<div class="card text-black bg-light m-3" style="width: 9rem;" id=\"' + "player" + (playerIndex + 1) +'\">' +
                 '<div class="card-body">' +
                 '<h5 class="card-title">Player: ' + (playerIndex + 1) + '</h5>' +
                 '<p class="card-text">Cards left: ' + player.playerDeck.length + '</p>';
@@ -143,6 +142,9 @@
             for (card in player.firstCard.catsValues) {
                 html += '<li class="list-group-item">' + game.categoryLabels[card] + ': ' + player.firstCard.catsValues[card] + '</li>';
             }
+            }
+        else{
+            html += '</div>';
         }
 
         $("#firstRow").append(html);
@@ -183,7 +185,7 @@
 
 // Maintains user communication throughout each round
     function startRoundLogic() {
-        if (game.isFinished) {
+        if (game.finished === true) {
             drawGameEnd();
         }
         else {
@@ -194,9 +196,6 @@
                         alert(alertMessage);
                         playRound();
                 }, 2000);
-                }
-                else {
-                    displayHumanTurn();
                 }
                 if (game.roundsPlayed > 0) {
                     if (game.communalPile.length != 0){
@@ -213,16 +212,18 @@
 
 
      function drawGameEnd() {
-        let html = "";
+        let msg = "";
         if (game.players[0] == null) {
-            html += "<p> Sorry that you lost.</p>";
-            html += "<p> Player " + (game.roundWinner + 1)  + "has won the game" + "</p>";
+            msg += "Sorry that you lost. ";
+            console.log(game);
+            msg += " Player " + (game.roundWinner + 1)  + " has won the game";
         } else {
-            html += "<p>Congratulations! You won the hardest game ever!</p>";
+            msg += "Congratulations! You won the hardest game ever! ";
         }
 
-        html += "<p>If you want to play again, just refresh your screen.</p>";
-        $("#firstRow").append(html);
+        msg += "You will be redirected to the home page!";
+        alert(msg);
+        this.location.replace('/toptrumps');
      }
 
 
@@ -237,27 +238,19 @@
              for (card in player.firstCard.catsValues) {
                  html += '<li class="list-group-item">' + game.categoryLabels[card] + ': ' + player.firstCard.catsValues[card] + '</li>';
              }
-
              $("#firstRow").append(html);
      }
-
-     function drawAIClosedCards(){
-     let html = '<div class="col-2"> <img src="/content/images/card.jpeg" class="img-rounded closed-card" alt="Opponents card" width=100% height=auto/></div>';
-
-             $("#firstRow").append(html);
-     }
-
 
      function displayHumanTurn(){
          let playerIndex = 0;
          for (player in game.players) {
              if (player != null) {
                  if (playerIndex == 0){
-                     drawHumanPlayer(game.humanPlayerCard);
+                     drawHumanPlayer(game.players[player]);
                      drawCategories();
                   }
                   else{
-                     drawAIClosedCards(game.players[player], playerIndex);
+                     drawPlayer(game.players[player], playerIndex);
                   }
              playerIndex++;
              }
@@ -276,7 +269,6 @@
                 playerIndex++;
             }
      }
-
 </script>
 </body>
 </html>
