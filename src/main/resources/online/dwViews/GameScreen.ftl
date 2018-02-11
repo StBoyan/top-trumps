@@ -15,7 +15,6 @@
 <div class="container-fluid">
     <div class="row" id="firstRow"></div>
     <div class="row" id="secondRow"></div>
-    <div class="row" id="thirdRow"></div>
 </div>
 
 <!-- Optional JavaScript -->
@@ -46,7 +45,9 @@
             success: function (data) {
                 game = data;
                 console.log(game);
+
                 startRoundLogic();
+
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("Status: " + textStatus);
@@ -79,7 +80,9 @@
             success: function (data) {
                 game = data;
                 console.log(game);
+
                 startRoundLogic();
+
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("Status: " + textStatus);
@@ -100,16 +103,6 @@
             emptyElements();
         }
         drawRound();
-
-
-        //if (game.activePlayer == 0){
-        //        displayHumanTurn();
-        //    }
-        //    else{
-        //        displayAITurn();
-        //    }
-
-        //drawMenuBar();
         displayAITurn();
 
         if (game.activePlayer == 0) {
@@ -134,7 +127,7 @@
             }
         }
 
-        $("#secondRow").append(html);
+        $("#firstRow").append(html);
     }
 
 // Creates a player's card
@@ -152,7 +145,7 @@
             }
         }
 
-        $("#secondRow").append(html);
+        $("#firstRow").append(html);
     }
 
 // Creates a button group for each category, used for the human player to enter a category
@@ -166,7 +159,7 @@
             html += '<button type="button" class="btn btn-secondary" value="'+ label +'" onclick="playRoundWithCategory(this.value)">' + game.categoryLabels[label] + '</button>';
         }
 
-        $("#thirdRow").append(html);
+        $("#secondRow").append(html);
     }
 
 
@@ -185,74 +178,52 @@
     function emptyElements() {
         $("#firstRow").empty();
         $("#secondRow").empty();
-        $("#thirdRow").empty();
     }
 
 
 // Maintains user communication throughout each round
     function startRoundLogic() {
-        if (game != null && game.players[0] != null) {
-            if (game.numOfPlayers == 1) {
-                alert("You won!")
-                drawGameEnd();
-            } else {
+        if (game.isFinished) {
+            drawGameEnd();
+        }
+        else {
                 drawGame();
                 if (game.activePlayer != 0) { // if it is an AI's turn
                     let alertMessage = buildAIActionMessage();
                     setTimeout(function () { // delays the response to simulate a thinking process
                         alert(alertMessage);
                         playRound();
-                    }, 2000);
+                }, 2000);
+                }
+                else {
+                    displayHumanTurn();
                 }
                 if (game.roundsPlayed > 0) {
                     if (game.communalPile.length != 0){
-                        alert("There is a draw")
+                        alert("There is a draw");
                     }
-                    else if (game.topTrumpsRound.roundWinner == 0) {
-                        alert("You won this round! It is your turn to choose a category!")
+                    else if (game.roundWinner == 0) {
+                        alert("You won this round! It is your turn to choose a category!");
                     } else {
-                        alert("Player " + (game.topTrumpsRound.roundWinner + 1) + " won this round!")
+                        alert("Player " + (game.roundWinner + 1) + " won this round!");
                     }
                 }
             }
-        } else {
-            alert ("You lost!");
-            if (gameStarted) {
-                 emptyElements();
-            }
-            drawGameEnd();
         }
 
-    }
+
      function drawGameEnd() {
         let html = "";
         if (game.players[0] == null) {
             html += "<p> Sorry that you lost.</p>";
+            html += "<p> Player " + (game.roundWinner + 1)  + "has won the game" + "</p>";
         } else {
             html += "<p>Congratulations! You won the hardest game ever!</p>";
         }
 
         html += "<p>If you want to play again, just refresh your screen.</p>";
-        $("#secondRow").append(html);
+        $("#firstRow").append(html);
      }
-
-    // function drawMenuBar(){
-    // let html = '<nav class="navbar navbar-expand-sm bg-info navbar-dark">
-    //                    <ul class="navbar-nav">
-    //                      <li class="nav-item active">
-    //                        <a class="nav-link" href="http://localhost:7777/toptrumps/">Home</a>
-    //                      </li>
-    //                      <li class="nav-item">
-    //                        <a class="nav-link" href="http://localhost:7777/toptrumps/game">Play New Game</a>
-    //                      </li>
-    //                      <li class="nav-item">
-    //                        <a class="nav-link" href="http://localhost:7777/toptrumps/stats">View Statistics</a>
-    //                      </li>
-    //                    </ul>
-    //                  </nav>'
-
-    // $("#firstRow").append(html);
-    // }
 
 
      function drawHumanPlayer(player){
@@ -267,13 +238,13 @@
                  html += '<li class="list-group-item">' + game.categoryLabels[card] + ': ' + player.firstCard.catsValues[card] + '</li>';
              }
 
-             $("#secondRow").append(html);
+             $("#firstRow").append(html);
      }
 
      function drawAIClosedCards(){
      let html = '<div class="col-2"> <img src="/content/images/card.jpeg" class="img-rounded closed-card" alt="Opponents card" width=100% height=auto/></div>';
 
-             $("#secondRow").append(html);
+             $("#firstRow").append(html);
      }
 
 

@@ -138,13 +138,10 @@ public class TopTrumpsRESTAPI {
 	 * Accordingly detects the round winner and informs if a player has been eliminated
 	 * **/
     public Game playRoundWithCategory(@QueryParam("category") int category) {
-        if (game.getPlayers()[0] == null) { // add is finished
-            throw new NotAllowedException("You lost"); //TODO something needs to happen if we loose other than notification// i.e. the game stops
-
-        }
-
-        //TODO the game doesn't know what to do when the game finishes
-        //TODO there appears to be something that's breaking midgame here
+//        if (game.getPlayers()[0] == null) { // add is finished
+//            throw new NotAllowedException("You lost");
+//
+//        }
         int roundCategory;
         if (game.getActivePlayer() == 0) {
             roundCategory = category;

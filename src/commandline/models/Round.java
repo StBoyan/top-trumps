@@ -171,4 +171,12 @@ public class Round {
     public int getDrawRounds() {
         return drawRounds;
     }
+
+    /**
+     * Returns the index of the round winner.
+     * @return round winner
+     */
+    public int getRoundWinner() {
+        return roundWinner;
+    }
 }

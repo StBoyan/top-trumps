@@ -2,7 +2,6 @@ package commandline.models;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class handles a single game of Top Trumps. It maintains
@@ -41,7 +40,7 @@ private int numOfPlayers;
             players[i] = new Player();
         }
 
-        activePlayer = (int)(Math.random() *4);
+        activePlayer = (int)(Math.random() *numOfPlayers);
     }
 
     /**
@@ -141,7 +140,7 @@ private int numOfPlayers;
         }
     }
 
-    /**
+     /**
      * Checks if the game is finished (i.e. there
      * is only 1 player) and returns true if finished
      * or false if not.
@@ -245,6 +244,14 @@ private int numOfPlayers;
      */
     public Card[] getCardsInRound() {
         return topTrumpsRound.getRoundCards();
+    }
+
+    /**
+     * Returns the round winner.
+     * @return int index round winner
+     */
+    public int getRoundWinner() {
+        return topTrumpsRound.getRoundWinner();
     }
 
     /**

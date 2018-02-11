@@ -25,8 +25,7 @@ public class Deck {
      * @throws FileNotFoundException if deck file is not found
      */
     public Deck(String deckFileName) throws FileNotFoundException{
-        createDeck(deckFileName); // to be removed
-//        gameDeck = new ArrayList<Card>();
+        createDeck(deckFileName);
     }
 
     /**
