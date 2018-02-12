@@ -138,10 +138,6 @@ public class TopTrumpsRESTAPI {
 	 * Accordingly detects the round winner and informs if a player has been eliminated
 	 * **/
     public Game playRoundWithCategory(@QueryParam("category") int category) {
-//        if (game.getPlayers()[0] == null) { // add is finished
-//            throw new NotAllowedException("You lost");
-//
-//        }
         int roundCategory;
         if (game.getActivePlayer() == 0) {
             roundCategory = category;
@@ -156,6 +152,14 @@ public class TopTrumpsRESTAPI {
         }
 
         game.removeEliminatedPlayers();
+
+        //If game has finished write results to database
+        if (game.isFinished()) {
+            Database db = new Database();
+            db.connect();
+            db.insertData(game.getRoundsPlayed(), game.getDrawStat(), game.getActivePlayer(), game.getPlayerWonRoundStat());
+            db.disconnect();
+        }
 
         return game;
     }
@@ -195,6 +199,5 @@ public class TopTrumpsRESTAPI {
 
         return json;
     }
-
 
 }

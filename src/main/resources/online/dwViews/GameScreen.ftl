@@ -221,7 +221,7 @@
             msg += "Congratulations! You won the hardest game ever! ";
         }
 
-        msg += "You will be redirected to the home page!";
+        msg += " You will be redirected to the home page!";
         alert(msg);
         this.location.replace('/toptrumps');
      }

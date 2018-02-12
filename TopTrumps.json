@@ -1,6 +1,6 @@
 {
     "deckFile": "deck.txt",
-    "numAIPlayers": 1,
+    "numAIPlayers": 4,
     "server": {
         "applicationConnectors" : [{"type" : "http", "port" : 7777}],
         "adminConnectors" : [{"type" : "http", "port" : 7778}]
