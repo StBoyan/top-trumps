@@ -114,6 +114,9 @@
         drawRound();
         if (game.activePlayer != 0) {
                  displayAITurn();
+				 if (game.players[0] == null){
+					humanLossNotification();
+				}	
         } else {
                displayHumanTurn();
         }
@@ -222,7 +225,8 @@
                     } else {
                         alert("Player " + (game.roundWinner + 1) + " won this round!");
                     }
-                }
+				}	
+				                
             }
         }
 
@@ -248,6 +252,7 @@
 
 /** Displayes a human player card
 *   @param {player} the human player
+**/
      function drawHumanPlayer(player){
      let html = '<div class="card text-black bg-primary m-3" style="width: 9rem;">' +
                      '<div class="card-body">' +
@@ -296,6 +301,19 @@
                 playerIndex++;
             }
      }
+	 
+/** An alert displaying when the human
+* has lost the game
+**/	 
+	function humanLossNotification(){
+		let html = '<div class="alert alert-warning" role="alert">' +
+				"You have been eliminated! The game continues without you!" + 
+			'</div>';
+
+$("#secondRow").append(html);
+
+
+	} 
 </script>
 </body>
 </html>
