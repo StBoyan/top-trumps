@@ -36,8 +36,11 @@
         startGame();
     });
 
-
-//Initializes a new game and displays an error message if something in the game logic goes wrong
+/** Initializes a new game
+*   from the RestAPI
+*   and displays an error message
+*   if something goes wrong
+**/
     function startGame() {
         $.ajax({
             type: "GET",
@@ -56,7 +59,11 @@
         });
     }
 
-// Handles each round
+/** Initializes a new round
+*   uses game logic
+*   from the back-end
+*   through the RestAPI
+**/
     function playRound() {
         $.ajax({
             type: "GET",
@@ -73,6 +80,10 @@
         });
     }
 
+/** Playes a round with a user chosen category
+*   @param {category} the chosen category
+*   that the user wants to play with
+**/
     function playRoundWithCategory(category) {
         $.ajax({
             type: "GET",
@@ -91,12 +102,10 @@
         });
     }
 
+/** Illustrates the game components
+*   revalidates the view if game is started
+**/
 
-// Illustrates the game components in the game view
-// if the game is started it revalidates the view
-// then it illustrates the information for the round
-// represented in the top left corner
-// along with the cards of each player
     function drawGame() {
     // Re-validates the page view
         if (gameStarted) {
@@ -112,7 +121,7 @@
     }
 
 
-// Illustrates the information for each round of the game
+/** Illustrates the information for each round of the game **/
     function drawRound() {
 
         let html = '<div class="col-2 text-white">';
@@ -129,7 +138,10 @@
         $("#firstRow").append(html);
     }
 
-// Creates a player's card
+/** Creates a player's card
+*   @param {player} a single player
+*   @param {playerIndex}  the position of a player
+**/
     function drawPlayer(player, playerIndex) {
         let html = '<div class="card text-black bg-light m-3" style="width: 9rem;" id=\"' + "player" + (playerIndex + 1) +'\">' +
                 '<div class="card-body">' +
@@ -150,7 +162,9 @@
         $("#firstRow").append(html);
     }
 
-// Creates a button group for each category, used for the human player to enter a category
+/** Creates a button group for each category,
+*   used for the human player to enter a category
+**/
     function drawCategories() {
         let html = '<div class="col">';
         html += '<div class="d-flex justify-content-center">';
@@ -165,25 +179,27 @@
     }
 
 
-// Creates a message for informing the user with the category chosen (when AI's turn)
+/** Creates a message for informing the user
+*   with the category chosen (when AI's turn)
+**/
     function buildAIActionMessage() {
         let message = "Player: " + (game.activePlayer + 1) + " chose to play the round with category: " + getActivePlayerTopCattegory();
         return message;
     }
 
-// Returns an AI's highest category
+/** Returns an AI's highest category **/
     function getActivePlayerTopCattegory() {
         return game.categoryLabels[game.players[game.activePlayer].bestCategory];
     }
 
-// Revalidates the page view
+/** Revalidates the page view **/
     function emptyElements() {
         $("#firstRow").empty();
         $("#secondRow").empty();
     }
 
 
-// Maintains user communication throughout each round
+/** Maintains user communication throughout each round **/
     function startRoundLogic() {
         if (game.finished === true) {
             drawGameEnd();
@@ -211,6 +227,9 @@
         }
 
 
+/** Displays an end of game message
+*   and redirects to the home screen
+**/
      function drawGameEnd() {
         let msg = "";
         if (game.players[0] == null) {
@@ -227,6 +246,8 @@
      }
 
 
+/** Displayes a human player card
+*   @param {player} the human player
      function drawHumanPlayer(player){
      let html = '<div class="card text-black bg-primary m-3" style="width: 9rem;">' +
                      '<div class="card-body">' +
@@ -241,6 +262,9 @@
              $("#firstRow").append(html);
      }
 
+/** Displays the game view in the state
+* of a human turn with hidden AI cards
+**/
      function displayHumanTurn(){
          let playerIndex = 0;
          for (player in game.players) {
@@ -257,6 +281,9 @@
          }
       }
 
+/** Displays the game view in the state
+*   of an AI turn with all cards visible
+**/
      function displayAITurn (){
         let playerIndex = 0;
             for (player in game.players) {
